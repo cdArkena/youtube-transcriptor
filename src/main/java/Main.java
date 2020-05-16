@@ -1,17 +1,17 @@
 import com.sapher.youtubedl.YoutubeDL;
+import com.sapher.youtubedl.YoutubeDLException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args){
 //        System.out.println("Select youtube-dl executable:");
-        Scanner io = new Scanner(System.in);
-        YoutubeDL.setExecutablePath("C:\\Users\\Artemis\\Downloads\\youtube-dl.exe");
-        System.out.println("Enter video url:");
+//        Scanner io = new Scanner(System.in);
+//        YoutubeDL.setExecutablePath("C:\\Users\\Artemis\\Desktop\\Desktop File\\logisim-win-2.7.1.exe");
+//        System.out.println(YoutubeDL.getVersion());
 //        try {
 //            createDir();
 //        } catch (Exception e) {
@@ -29,9 +29,5 @@ public class Main {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-    }
-
-    private static void createDir() throws IOException {
-        Path dir = Files.createTempDirectory("youtube-tr");
     }
 }
