@@ -3,9 +3,12 @@ import com.sapher.youtubedl.YoutubeDLException;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SubtitleProcessor {
 
@@ -19,21 +22,14 @@ public class SubtitleProcessor {
     public boolean enCapt = false;
     public boolean enSubs = false;
     protected String videoUrl = "";
+    private Path dir;
 
-    public SubtitleProcessor(String videoUrl) {
+    public SubtitleProcessor(String videoUrl, Path dir) {
         this.videoUrl = videoUrl;
+        this.dir = dir;
     }
 
-//    public String getSubs() throws YoutubeDLException {
-////        String videoURL = "https://www.youtube.com/watch?v=tTqu0arCV3s";
-////        String url = "https://www.youtube.com/watch?v=BtN-goy9VOY";
-////        String outDirectory = System.getProperty("java.io.tmpdir");
-//
-////        System.out.println(outDirectory);
-//
-//    }
-
-    // TODO: Grab subtitle in SRT, SRT parser, Generator
+    // TODO: SRT parser, Generator
 
     public void checkSubs() throws IOException, YoutubeDLException {
 
@@ -75,16 +71,50 @@ public class SubtitleProcessor {
      * Get the subtitle/closed-captions from the video.
      *
      * lang     type    description
+     * x        x       Indonesian, subtitle
+     * x        0       Indonesian, closed-caption
+     * 0        x       English, subtitle
      * 0        0       English, closed-caption
-     * 0        1       English, subtitle
-     * 1        0       Indonesian, closed-caption
-     * 1        1       Indonesian, subtitle
      *
      * @param lang choose the language of the captions
      * @param type choose the type of the captions
      * @return void
      */
-    public void getSub(boolean lang, boolean type) {
+    public void getSub(int lang, int type) throws YoutubeDLException {
+        YoutubeDLRequest yt = new YoutubeDLRequest(this.videoUrl);
+        yt.setOption("sub-format", "vtt");
+        yt.setOption("skip-download");
 
+        // Boolean doesn't work? :/
+        if (lang != 0 && type != 0) {
+            yt.setOption("write-sub");
+            yt.setOption("sub-lang", "id");
+            yt.setOption("output", Paths.get(dir.toString(), "sub.%(id)s.%(ext)s").toString());
+        } else if (lang != 0 && type == 0) {
+            yt.setOption("write-auto-sub");
+            yt.setOption("sub-lang", "id");
+            yt.setOption("output", Paths.get(dir.toString(), "auto.%(id)s.%(ext)s").toString());
+        } else if (lang == 0 && type != 0) {
+            yt.setOption("write-sub");
+            yt.setOption("sub-lang", "en");
+            yt.setOption("output", Paths.get(dir.toString(), "sub.%(id)s.%(ext)s").toString());
+        } else  if (lang == 0 && type == 0) {
+            yt.setOption("write-auto-sub");
+            yt.setOption("sub-lang", "en");
+            yt.setOption("output", Paths.get(dir.toString(), "auto.%(id)s.%(ext)s").toString());
+        }
+
+        YoutubeDL.execute(yt);
+    }
+
+    public void getAllSub() {
+        try {
+            getSub(1, 1);
+            getSub(1, 0);
+            getSub(0, 1);
+            getSub(0, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
