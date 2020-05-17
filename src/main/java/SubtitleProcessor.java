@@ -3,6 +3,7 @@ import com.sapher.youtubedl.YoutubeDLException;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Path;
@@ -113,6 +114,18 @@ public class SubtitleProcessor {
             getSub(0, 0);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    // Wait, so how do user select the subtitle again?
+    // How does Dropdown work?
+    // We're gonna parse every subtitle in the temp folder here
+    public void parseSubtitles(File file) {
+        File dir = this.dir.toFile();
+        for (final File f : dir.listFiles()) {
+            if (f != null && f.isFile()) {
+                //Parse here
+            }
         }
     }
 }

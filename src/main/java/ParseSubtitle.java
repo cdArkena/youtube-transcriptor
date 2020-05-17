@@ -11,6 +11,7 @@ public class ParseSubtitle {
     Parse every .vtt file into Linkedtext in GUI
      */
     ParseSubtitle(String path, boolean type, String id, boolean lang) { // should we keep id parameter?
+        // We're going to parse the individual vtt here
         File dir = new File(path);
         String typeString = (type) ? "sub" : "auto";
         String langString = (lang) ? "id" : "en";

@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group 'com.kurangtidurexception'
@@ -20,4 +21,8 @@ dependencies {
 //    testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'com.github.sapher:youtubedl-java:1.+'
     compile 'com.google.cloud:google-cloud-speech:1.23.0'
+}
+
+javafx {
+    modules = ['javafx.controls', 'javafx.web']
 }
