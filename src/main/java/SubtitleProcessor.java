@@ -28,7 +28,7 @@ public class SubtitleProcessor {
         this.dir = dir;
     }
 
-    // TODO: SRT parser, Generator
+    // TODO: SRT parser, Generator, Text Exporter
 
     public void checkSubs() throws IOException, YoutubeDLException {
 

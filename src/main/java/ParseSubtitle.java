@@ -1,7 +1,5 @@
 import java.io.File;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ParseSubtitle {
 
@@ -12,6 +10,7 @@ public class ParseSubtitle {
      */
     ParseSubtitle(String path, boolean type, String id, boolean lang) { // should we keep id parameter?
         // We're going to parse the individual vtt here
+        // TODO: How do we make in asynchronous?
         File dir = new File(path);
         String typeString = (type) ? "sub" : "auto";
         String langString = (lang) ? "id" : "en";
