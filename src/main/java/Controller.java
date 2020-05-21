@@ -56,27 +56,29 @@ public class Controller {
     }
 
     public boolean uriValidation(String uri) {
+        // we can move the compilation, to class level
         Pattern pattern = Pattern.compile("^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
         Matcher matcher = pattern.matcher(uri);
         return matcher.find();
     }
 
     public String grabId(String url) {
+        // we can move the compilation, to class level
         Pattern pattern = Pattern.compile("([0-9a-zA-Z]{11})");
         Matcher matcher = pattern.matcher(url);
         if (matcher.find()) return matcher.group(1);
         else return "";
     }
 
-    public void processSubtitle(String uri) {
-        String prefix = "https://www.youtube.com/watch?v=";
-        SubtitleProcessor subs = new SubtitleProcessor(prefix + videoId, dir);
-        try {
+    public SubtitleProcessor processSubtitle() {
+        SubtitleProcessor subs = new SubtitleProcessor(videoId, dir);
+        try { // TODO: This is why it took 20 seconds. We can do better
             subs.checkSubs();
-            subs.getAllSub();
+            subs.downAllSub(); // just don't download everything at once
         } catch (YoutubeDLException | IOException e) {
             e.printStackTrace();
         }
+        return subs;
     }
 }
 

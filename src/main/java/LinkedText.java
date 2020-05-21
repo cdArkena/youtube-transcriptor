@@ -9,4 +9,8 @@ public class LinkedText extends javafx.scene.text.Text{
         super(text);
         this.uri = uri;
     }
+
+    public String getUri() {
+        return uri;
+    }
 }

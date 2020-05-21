@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class SubtitleProcessor {
 
@@ -20,11 +21,12 @@ public class SubtitleProcessor {
     public boolean idSubs = false;
     public boolean enCapt = false;
     public boolean enSubs = false;
-    protected String videoUrl = "";
+    protected String videoId = "";
+    private String prefix = "https://www.youtube.com/watch?v=";
     private Path dir;
 
     public SubtitleProcessor(String videoUrl, Path dir) {
-        this.videoUrl = videoUrl;
+        this.videoId = videoUrl;
         this.dir = dir;
     }
 
@@ -32,7 +34,7 @@ public class SubtitleProcessor {
 
     public void checkSubs() throws IOException, YoutubeDLException {
 
-        YoutubeDLRequest yt = new YoutubeDLRequest(this.videoUrl);
+        YoutubeDLRequest yt = new YoutubeDLRequest(prefix + this.videoId);
         yt.setOption("list-subs");
         YoutubeDLResponse res = YoutubeDL.execute(yt);
 
@@ -68,7 +70,7 @@ public class SubtitleProcessor {
 
     /**
      * Get the subtitle/closed-captions from the video.
-     *
+     * <p>
      * lang     type    description
      * x        x       Indonesian, subtitle
      * x        0       Indonesian, closed-caption
@@ -79,8 +81,8 @@ public class SubtitleProcessor {
      * @param type choose the type of the captions
      * @return void
      */
-    public void getSub(int lang, int type) throws YoutubeDLException {
-        YoutubeDLRequest yt = new YoutubeDLRequest(this.videoUrl);
+    public void downSub(int lang, int type) throws YoutubeDLException { // This is slow
+        YoutubeDLRequest yt = new YoutubeDLRequest(prefix + this.videoId);
         yt.setOption("sub-format", "vtt");
         yt.setOption("skip-download");
 
@@ -97,35 +99,33 @@ public class SubtitleProcessor {
             yt.setOption("write-sub");
             yt.setOption("sub-lang", "en");
             yt.setOption("output", Paths.get(dir.toString(), "sub.%(id)s.%(ext)s").toString());
-        } else  if (lang == 0 && type == 0) {
+        } else if (lang == 0 && type == 0) {
             yt.setOption("write-auto-sub");
             yt.setOption("sub-lang", "en");
             yt.setOption("output", Paths.get(dir.toString(), "auto.%(id)s.%(ext)s").toString());
         }
-
         YoutubeDL.execute(yt);
     }
 
-    public void getAllSub() {
+    public void downAllSub() { // This is veeeeery slow
         try {
-            getSub(1, 1);
-            getSub(1, 0);
-            getSub(0, 1);
-            getSub(0, 0);
+            if (idSubs) downSub(1, 1);
+            if (idCapt) downSub(1, 0);
+            if (enSubs) downSub(0, 1);
+            if (enCapt) downSub(0, 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Wait, so how do user select the subtitle again?
-    // How does Dropdown work?
-    // We're gonna parse every subtitle in the temp folder here
-    public void parseSubtitles(File file) {
-        File dir = this.dir.toFile();
-        for (final File f : dir.listFiles()) {
-            if (f != null && f.isFile()) {
-                //Parse here
-            }
-        }
+    public ArrayList<LinkedText> parseFile(boolean type, boolean lang) {
+        String typeString = (type) ? "sub" : "auto";
+        String langString = (lang) ? "id" : "en";
+        String fileName = String.format("%s.%s.%s.vtt", typeString, videoId, langString);
+        File file = new File(dir.toFile(), fileName);
+        System.out.println(file.toString());
+        return new ParseSubtitle(file, this.videoId).getTranscript(); // The array is for storage
+        // If the user changed the language setting, the previous language is still stored
+        // And the new language is processed on-the-fly
     }
 }

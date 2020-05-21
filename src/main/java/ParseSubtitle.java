@@ -1,30 +1,55 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ParseSubtitle {
 
     ArrayList<LinkedText> transcript = new ArrayList<>();
+    Pattern timestamp = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})\\.(\\d{3}) --> ");
+    // Is the right-side of regex necessary? seems not
 
     /*
     Parse every .vtt file into Linkedtext in GUI
      */
-    ParseSubtitle(String path, boolean type, String id, boolean lang) { // should we keep id parameter?
-        // We're going to parse the individual vtt here
-        // TODO: How do we make in asynchronous?
-        File dir = new File(path);
-        String typeString = (type) ? "sub" : "auto";
-        String langString = (lang) ? "id" : "en";
-        String fileName = String.format("(%s)\\.(%s)\\.(%s)\\.vtt", typeString, id, langString);
-        for (final File f : dir.listFiles()) {
-            if (f != null && f.isFile()) {
-                if (f.getName().matches(fileName)) {
-                    readSubtitle(f);
-                }
-            }
-        }
+
+     ParseSubtitle(File f, String videoId) {
+         if (f.exists()) {
+             String line;
+             try {
+                 BufferedReader br = new BufferedReader(new FileReader(f));
+                 line = br.readLine();
+                 while (line != null) {
+                     Matcher matcher = timestamp.matcher(line);
+                     if (matcher.find()) {
+                         int time = Integer.parseInt(matcher.group(1)) * 360 + // This is very bad
+                             Integer.parseInt(matcher.group(2)) * 60 +
+                             Integer.parseInt(matcher.group(3)) +
+                             ((Integer.parseInt(matcher.group(4)) > 500) ? 0 : 1);
+                         String uri = String.format("https://www.youtube.com/embed/%s?start=%s&showinfo=0&autoplay=1", videoId, time);
+                         LinkedText lt = new LinkedText(br.readLine().strip(), uri);
+                         transcript.add(lt);
+
+                         System.out.print(lt.getText());
+                         System.out.print(" - ");
+                         System.out.println(lt.getUri());
+                     }
+                     line = br.readLine();
+                 }
+
+             } catch (IOException e) {
+                 System.out.println(e);
+                 e.printStackTrace(); // TODO GUI Error Handling
+             }
+         } else {
+             System.out.println("file doesn't exist"); // TODO GUI
+         }
     }
 
-    private void readSubtitle(File f) {
-
+    public ArrayList<LinkedText> getTranscript() {
+        return transcript;
     }
 }
