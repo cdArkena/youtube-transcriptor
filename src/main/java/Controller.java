@@ -11,6 +11,9 @@ import java.util.regex.Pattern;
 public class Controller {
 
     protected String videoId = "";
+    private Pattern validateYTDL = Pattern.compile("[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\s+");
+    private Pattern validateUri = Pattern.compile("^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
+    private Pattern getId = Pattern.compile("([0-9a-zA-Z]{11})");
     private Path dir;
 
     Controller(String uri) {
@@ -44,9 +47,8 @@ public class Controller {
     }
 
     public boolean validateYTDLPath() throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
-        Pattern pattern = Pattern.compile("[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}");
-        Matcher matcher = pattern.matcher(YoutubeDL.getVersion());
-        return matcher.find();
+        Matcher matcher = validateYTDL.matcher(YoutubeDL.getVersion());
+        return matcher.matches();
     }
 
     public void downloadYTDL() {
@@ -56,16 +58,12 @@ public class Controller {
     }
 
     public boolean uriValidation(String uri) {
-        // we can move the compilation, to class level
-        Pattern pattern = Pattern.compile("^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
-        Matcher matcher = pattern.matcher(uri);
-        return matcher.find();
+        Matcher matcher = validateUri.matcher(uri);
+        return matcher.matches();
     }
 
     public String grabId(String url) {
-        // we can move the compilation, to class level
-        Pattern pattern = Pattern.compile("([0-9a-zA-Z]{11})");
-        Matcher matcher = pattern.matcher(url);
+        Matcher matcher = getId.matcher(url);
         if (matcher.find()) return matcher.group(1);
         else return "";
     }
@@ -74,7 +72,18 @@ public class Controller {
         SubtitleProcessor subs = new SubtitleProcessor(videoId, dir);
         try { // TODO: This is why it took 20 seconds. We can do better
             subs.checkSubs();
-            subs.downAllSub(); // just don't download everything at once
+            subs.downAllSub();
+        } catch (YoutubeDLException | IOException e) {
+            e.printStackTrace();
+        }
+        return subs;
+    }
+
+    public SubtitleProcessor processSubtitle(boolean lang, boolean type) {
+        SubtitleProcessor subs = new SubtitleProcessor(videoId, dir);
+        try {
+            subs.checkSubs();
+            subs.downSub(lang, type); // just don't download everything at once
         } catch (YoutubeDLException | IOException e) {
             e.printStackTrace();
         }

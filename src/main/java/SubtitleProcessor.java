@@ -21,8 +21,8 @@ public class SubtitleProcessor {
     public boolean idSubs = false;
     public boolean enCapt = false;
     public boolean enSubs = false;
-    protected String videoId = "";
-    private String prefix = "https://www.youtube.com/watch?v=";
+    private String videoId;
+    static String prefix = "https://www.youtube.com/watch?v=";
     private Path dir;
 
     public SubtitleProcessor(String videoUrl, Path dir) {
@@ -70,36 +70,36 @@ public class SubtitleProcessor {
 
     /**
      * Get the subtitle/closed-captions from the video.
-     * <p>
+     *
      * lang     type    description
-     * x        x       Indonesian, subtitle
-     * x        0       Indonesian, closed-caption
-     * 0        x       English, subtitle
-     * 0        0       English, closed-caption
+     * true     true    Indonesian, subtitle
+     * true     false   Indonesian, closed-caption
+     * false    true    English, subtitle
+     * false    false   English, closed-caption
      *
      * @param lang choose the language of the captions
      * @param type choose the type of the captions
      * @return void
      */
-    public void downSub(int lang, int type) throws YoutubeDLException { // This is slow
+    public void downSub(boolean lang, boolean type) throws YoutubeDLException {
         YoutubeDLRequest yt = new YoutubeDLRequest(prefix + this.videoId);
         yt.setOption("sub-format", "vtt");
         yt.setOption("skip-download");
 
         // Boolean doesn't work? :/
-        if (lang != 0 && type != 0) {
+        if (lang && type && idSubs) {
             yt.setOption("write-sub");
             yt.setOption("sub-lang", "id");
             yt.setOption("output", Paths.get(dir.toString(), "sub.%(id)s.%(ext)s").toString());
-        } else if (lang != 0 && type == 0) {
+        } else if (lang && !type && idCapt) {
             yt.setOption("write-auto-sub");
             yt.setOption("sub-lang", "id");
             yt.setOption("output", Paths.get(dir.toString(), "auto.%(id)s.%(ext)s").toString());
-        } else if (lang == 0 && type != 0) {
+        } else if (!lang && type && enSubs) {
             yt.setOption("write-sub");
             yt.setOption("sub-lang", "en");
             yt.setOption("output", Paths.get(dir.toString(), "sub.%(id)s.%(ext)s").toString());
-        } else if (lang == 0 && type == 0) {
+        } else if (!lang && !type && enCapt) {
             yt.setOption("write-auto-sub");
             yt.setOption("sub-lang", "en");
             yt.setOption("output", Paths.get(dir.toString(), "auto.%(id)s.%(ext)s").toString());
@@ -109,10 +109,10 @@ public class SubtitleProcessor {
 
     public void downAllSub() { // This is veeeeery slow
         try {
-            if (idSubs) downSub(1, 1);
-            if (idCapt) downSub(1, 0);
-            if (enSubs) downSub(0, 1);
-            if (enCapt) downSub(0, 0);
+            if (idSubs) downSub(true, true);
+            if (idCapt) downSub(true, false);
+            if (enSubs) downSub(false, true);
+            if (enCapt) downSub(false, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,5 +127,9 @@ public class SubtitleProcessor {
         return new ParseSubtitle(file, this.videoId).getTranscript(); // The array is for storage
         // If the user changed the language setting, the previous language is still stored
         // And the new language is processed on-the-fly
+    }
+
+    public String getVideoId() {
+        return videoId;
     }
 }

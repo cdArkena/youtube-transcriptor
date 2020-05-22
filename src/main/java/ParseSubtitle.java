@@ -29,8 +29,10 @@ public class ParseSubtitle {
                              Integer.parseInt(matcher.group(2)) * 60 +
                              Integer.parseInt(matcher.group(3)) +
                              ((Integer.parseInt(matcher.group(4)) > 500) ? 0 : 1);
-                         String uri = String.format("https://www.youtube.com/embed/%s?start=%s&showinfo=0&autoplay=1", videoId, time);
+                         String embedPrefix = "https://www.youtube.com/embed/%s?start=%s&showinfo=0&autoplay=1";
+                         String uri = String.format(embedPrefix, videoId, time);
                          LinkedText lt = new LinkedText(br.readLine().strip(), uri);
+
                          transcript.add(lt);
 
                          System.out.print(lt.getText());
@@ -39,9 +41,8 @@ public class ParseSubtitle {
                      }
                      line = br.readLine();
                  }
-
+                 br.close();
              } catch (IOException e) {
-                 System.out.println(e);
                  e.printStackTrace(); // TODO GUI Error Handling
              }
          } else {

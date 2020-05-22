@@ -12,8 +12,12 @@ public class Main {
         Controller c = new Controller("https://www.youtube.com/watch?v=QImCld9YubE");
         c.changeYTDLPath("C:\\Users\\Artemis\\Downloads\\youtube-dl.exe");
         try {
+            System.out.println(1);
+            System.out.println(c.validateYTDLPath());
             if (c.validateYTDLPath()) {
-                SubtitleProcessor sp = c.processSubtitle();
+                System.out.println(c.getDir());
+                SubtitleProcessor sp = c.processSubtitle(true,true);
+                System.out.println(4);
                 // Don't put it on array first, just add the text on-the-fly
                 // The array is just for storage only
 //                for (LinkedText t : sp.parseFile(true,true)) {
@@ -22,9 +26,9 @@ public class Main {
 //                    System.out.println(t.getUri());
 //                }
                 sp.parseFile(true,true);
+                System.out.println(5);
             }
         } catch (Exception e) {
-            System.out.println(e);
             e.printStackTrace();
         }
     }
