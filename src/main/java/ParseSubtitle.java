@@ -10,7 +10,6 @@ public class ParseSubtitle {
 
     ArrayList<LinkedText> transcript = new ArrayList<>();
     Pattern timestamp = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})\\.(\\d{3}) --> ");
-    // Is the right-side of regex necessary? seems not
 
     /*
     Parse every .vtt file into Linkedtext in GUI

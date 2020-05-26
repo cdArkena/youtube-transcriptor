@@ -31,14 +31,25 @@ public class Controller {
         dir = Files.createTempDirectory("youtube-tr-");
     }
 
-    private void deleteDir() {
-        File deldir = new File(dir.toUri());
-        deldir.deleteOnExit(); // just delete???
+    public void deleteDir() {
+        String[] fs = dir.toFile().list();
+        if (fs != null) {
+            if (fs.length > 0) {
+                for (String s : fs) {
+                    File f = new File(dir.toString(),s);
+                    f.delete();
+                }
+            }
+        }
+        dir.toFile().delete();
     }
 
     public String getDir() {
-        if (dir != null) return dir.toString();
-        else return "";
+        if (dir != null) {
+            return dir.toString();
+        } else {
+            return "";
+        }
     }
 
     public void changeYTDLPath(String path) { //TODO Validate, harus .exe (GUI Side)
@@ -46,7 +57,8 @@ public class Controller {
         YoutubeDL.setExecutablePath(exePath.toString());
     }
 
-    public boolean validateYTDLPath() throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
+    public boolean validateYTDLPath()
+        throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
         Matcher matcher = validateYTDL.matcher(YoutubeDL.getVersion());
         return matcher.matches();
     }
@@ -64,8 +76,11 @@ public class Controller {
 
     public String grabId(String url) {
         Matcher matcher = getId.matcher(url);
-        if (matcher.find()) return matcher.group(1);
-        else return "";
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            return "";
+        }
     }
 
     public SubtitleProcessor processSubtitle() {

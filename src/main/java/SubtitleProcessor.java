@@ -25,8 +25,8 @@ public class SubtitleProcessor {
     static String prefix = "https://www.youtube.com/watch?v=";
     private Path dir;
 
-    public SubtitleProcessor(String videoUrl, Path dir) {
-        this.videoId = videoUrl;
+    public SubtitleProcessor(String videoId, Path dir) {
+        this.videoId = videoId;
         this.dir = dir;
     }
 
@@ -34,7 +34,7 @@ public class SubtitleProcessor {
 
     public void checkSubs() throws IOException, YoutubeDLException {
 
-        YoutubeDLRequest yt = new YoutubeDLRequest(prefix + this.videoId);
+        YoutubeDLRequest yt = new YoutubeDLRequest(prefix + videoId);
         yt.setOption("list-subs");
         YoutubeDLResponse res = YoutubeDL.execute(yt);
 
@@ -82,7 +82,7 @@ public class SubtitleProcessor {
      * @return void
      */
     public void downSub(boolean lang, boolean type) throws YoutubeDLException {
-        YoutubeDLRequest yt = new YoutubeDLRequest(prefix + this.videoId);
+        YoutubeDLRequest yt = new YoutubeDLRequest(prefix + videoId);
         yt.setOption("sub-format", "vtt");
         yt.setOption("skip-download");
 
@@ -124,7 +124,7 @@ public class SubtitleProcessor {
         String fileName = String.format("%s.%s.%s.vtt", typeString, videoId, langString);
         File file = new File(dir.toFile(), fileName);
         System.out.println(file.toString());
-        return new ParseSubtitle(file, this.videoId).getTranscript(); // The array is for storage
+        return new ParseSubtitle(file, videoId).getTranscript(); // The array is for storage
         // If the user changed the language setting, the previous language is still stored
         // And the new language is processed on-the-fly
     }
