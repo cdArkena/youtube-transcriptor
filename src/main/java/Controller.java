@@ -1,10 +1,5 @@
 import com.sapher.youtubedl.YoutubeDL;
 import com.sapher.youtubedl.YoutubeDLException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,8 +23,10 @@ public class Controller {
                 this.videoId = grabId(uri);
             } else {
                 // TODO ELSE condition with GUI
-                ;
-            }
+                btn.setOnAction(event -> {
+                    primaryStage.setTitle("URL yang Anda masukkan tidak valid");
+                    uri.clear();
+                }
         } catch (Exception e) {
             e.printStackTrace(); //TODO GUI Error handling
         }

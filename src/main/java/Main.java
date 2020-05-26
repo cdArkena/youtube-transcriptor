@@ -12,10 +12,10 @@ import java.util.Scanner;
 
 public class Main {
     public void start(Stage primaryStage) throws Exception {
-        Parent uriErrorRoot = FXMLLoader.load(getClass().getResource("error_uri_gui.fxml"));
+        Parent uriErrorRoot = FXMLLoader.load(getClass().getResource("dialog_gui.fxml"));
         Scene uniError = new Scene(uriErrorRoot);
 
-        primaryStage.setTitle("Error");
+        primaryStage.setTitle("Welcome");
         primaryStage.setScene(uniError);
         primaryStage.show();
     }
