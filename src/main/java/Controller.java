@@ -1,5 +1,10 @@
 import com.sapher.youtubedl.YoutubeDL;
 import com.sapher.youtubedl.YoutubeDLException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +26,10 @@ public class Controller {
             createDir();
             if (uriValidation(uri)) {
                 this.videoId = grabId(uri);
-            } // TODO ELSE condition with GUI
+            } else {
+                // TODO ELSE condition with GUI
+                ;
+            }
         } catch (Exception e) {
             e.printStackTrace(); //TODO GUI Error handling
         }
