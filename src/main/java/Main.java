@@ -21,26 +21,29 @@ public class Main {
     }
 
     public static void main(String[] args){
-        System.out.println("Select youtube-dl executable:");
-        Scanner io = new Scanner(System.in);
-        YoutubeDL.setExecutablePath("C:\\Users\\Artemis\\Desktop\\Desktop File\\logisim-win-2.7.1.exe");
-        System.out.println(YoutubeDL.getVersion());
-        try {
-            createDir();
-        } catch (Exception e) {
-            e.printStackTrace(); //TODO GUI Error handling
-        }
 
-        SubtitleProcessor subs = new SubtitleProcessor(io.nextLine());
-        String data = "";
+        Controller c = new Controller("https://www.youtube.com/watch?v=QImCld9YubE");
+        c.changeYTDLPath("C:\\Users\\Artemis\\Downloads\\youtube-dl.exe");
         try {
-            subs.checkSubs();
-            System.out.println("Enter sub code: ");
-            String[] code = io.nextLine().split(" ");
-            System.out.println(Arrays.toString(code));
-            subs.getSub(Integer.parseInt(code[0]), Integer.parseInt(code[1]));
+            System.out.println(1);
+            System.out.println(c.validateYTDLPath());
+            if (c.validateYTDLPath()) {
+                System.out.println(c.getDir());
+                SubtitleProcessor sp = c.processSubtitle(true,true);
+                System.out.println(4);
+                // Don't put it on array first, just add the text on-the-fly
+                // The array is just for storage only
+//                for (LinkedText t : sp.parseFile(true,true)) {
+//                    System.out.print(t.getText());
+//                    System.out.print(" ");
+//                    System.out.println(t.getUri());
+//                }
+                sp.parseFile(true,true);
+                System.out.println(5);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        c.deleteDir();
     }
 }

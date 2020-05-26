@@ -16,6 +16,9 @@ import java.util.regex.Pattern;
 public class Controller {
 
     protected String videoId = "";
+    private Pattern validateYTDL = Pattern.compile("[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\s+");
+    private Pattern validateUri = Pattern.compile("^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
+    private Pattern getId = Pattern.compile("([0-9a-zA-Z]{11})");
     private Path dir;
 
     Controller(String uri) {
@@ -36,14 +39,25 @@ public class Controller {
         dir = Files.createTempDirectory("youtube-tr-");
     }
 
-    private void deleteDir() {
-        File deldir = new File(dir.toUri());
-        deldir.deleteOnExit(); // just delete???
+    public void deleteDir() {
+        String[] fs = dir.toFile().list();
+        if (fs != null) {
+            if (fs.length > 0) {
+                for (String s : fs) {
+                    File f = new File(dir.toString(),s);
+                    f.delete();
+                }
+            }
+        }
+        dir.toFile().delete();
     }
 
     public String getDir() {
-        if (dir != null) return dir.toString();
-        else return "";
+        if (dir != null) {
+            return dir.toString();
+        } else {
+            return "";
+        }
     }
 
     public void changeYTDLPath(String path) { //TODO Validate, harus .exe (GUI Side)
@@ -51,10 +65,10 @@ public class Controller {
         YoutubeDL.setExecutablePath(exePath.toString());
     }
 
-    public boolean validateYTDLPath() throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
-        Pattern pattern = Pattern.compile("[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}");
-        Matcher matcher = pattern.matcher(YoutubeDL.getVersion());
-        return matcher.find();
+    public boolean validateYTDLPath()
+        throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
+        Matcher matcher = validateYTDL.matcher(YoutubeDL.getVersion());
+        return matcher.matches();
     }
 
     public void downloadYTDL() {
@@ -64,27 +78,39 @@ public class Controller {
     }
 
     public boolean uriValidation(String uri) {
-        Pattern pattern = Pattern.compile("^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
-        Matcher matcher = pattern.matcher(uri);
-        return matcher.find();
+        Matcher matcher = validateUri.matcher(uri);
+        return matcher.matches();
     }
 
     public String grabId(String url) {
-        Pattern pattern = Pattern.compile("([0-9a-zA-Z]{11})");
-        Matcher matcher = pattern.matcher(url);
-        if (matcher.find()) return matcher.group(1);
-        else return "";
+        Matcher matcher = getId.matcher(url);
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            return "";
+        }
     }
 
-    public void processSubtitle(String uri) {
-        String prefix = "https://www.youtube.com/watch?v=";
-        SubtitleProcessor subs = new SubtitleProcessor(prefix + videoId, dir);
-        try {
+    public SubtitleProcessor processSubtitle() {
+        SubtitleProcessor subs = new SubtitleProcessor(videoId, dir);
+        try { // TODO: This is why it took 20 seconds. We can do better
             subs.checkSubs();
-            subs.getAllSub();
+            subs.downAllSub();
         } catch (YoutubeDLException | IOException e) {
             e.printStackTrace();
         }
+        return subs;
+    }
+
+    public SubtitleProcessor processSubtitle(boolean lang, boolean type) {
+        SubtitleProcessor subs = new SubtitleProcessor(videoId, dir);
+        try {
+            subs.checkSubs();
+            subs.downSub(lang, type); // just don't download everything at once
+        } catch (YoutubeDLException | IOException e) {
+            e.printStackTrace();
+        }
+        return subs;
     }
 }
 
