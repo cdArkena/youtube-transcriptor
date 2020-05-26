@@ -24,5 +24,14 @@ dependencies {
 }
 
 javafx {
-    modules = ['javafx.controls', 'javafx.web']
+    modules = ['javafx.controls', 'javafx.web','javafx.fxml']
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/java"]
+            includes = ["**/*.fxml"]
+        }
+    }
 }
