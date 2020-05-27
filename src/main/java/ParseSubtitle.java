@@ -50,6 +50,6 @@ public class ParseSubtitle {
     }
 
     public ArrayList<LinkedText> getTranscript() {
-        return transcript;
+         return transcript;
     }
 }

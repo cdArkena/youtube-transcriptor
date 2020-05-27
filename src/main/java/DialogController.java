@@ -31,6 +31,7 @@ public class DialogController implements Initializable {
                 stage.show();
                 c.createDir();
                 c.setVideoId(uri);
+                c.changeYTDLPath("src/main/java/youtube-dl.exe");
                 c.processSubtitle();
                 c.updateRadio();
 

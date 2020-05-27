@@ -7,9 +7,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
 
 public class Controller {
+
+    @FXML
+    public MenuItem changeLanguage;
 
     public static Stage mainStage;
     protected static Path dir;
