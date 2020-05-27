@@ -6,19 +6,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public void start(Stage primaryStage) {
-        try {
-            Parent uriErrorRoot = FXMLLoader.load(getClass().getResource("dialog_gui.fxml"));
-            Scene uniError = new Scene(uriErrorRoot);
-            primaryStage.setTitle("Error");
-            primaryStage.setScene(uniError);
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    static Stage mainStage;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         launch();
 //        Controller c = new Controller("https://www.youtube.com/watch?v=QImCld9YubE");
@@ -44,5 +34,17 @@ public class Main extends Application {
 //            e.printStackTrace();
 //        }
 //        c.deleteDir();
+    }
+
+    public void start(Stage primaryStage) {
+        try {
+            mainStage = primaryStage;
+            Parent uriErrorRoot = FXMLLoader.load(getClass().getResource("dialog_gui.fxml"));
+            Scene uniError = new Scene(uriErrorRoot, 450, 150);
+            primaryStage.setScene(uniError);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

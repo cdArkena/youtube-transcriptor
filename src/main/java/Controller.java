@@ -1,11 +1,5 @@
 import com.sapher.youtubedl.YoutubeDL;
 import com.sapher.youtubedl.YoutubeDLException;
-
-import javafx.event.ActionEvent;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,17 +7,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
-public class Controller implements Initializable {
+public class Controller {
 
-    public javafx.scene.control.TextField uriInput;
-    public Button button;
     protected String videoId = "";
     private Pattern validateYTDL = Pattern.compile("[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\s+");
     private Pattern validateUri = Pattern.compile("^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
     private Pattern getId = Pattern.compile("([0-9a-zA-Z]{11})");
-    private Path dir;
+    protected Path dir;
+    public SubtitleProcessor subtitleProcessor;
+    public static Stage mainStage;
 
 //    Controller(String uri) {
 //        try {
@@ -37,42 +31,46 @@ public class Controller implements Initializable {
 //            e.printStackTrace(); //TODO GUI Error handling
 //        }
 //    }
-    @FXML
-    public void action(ActionEvent event) {
-        String uri = uriInput.getText();
-        System.out.println(uri);
-        try {
-            createDir();
-            if (uriValidation(uri)) {
-                videoId = grabId(uri);
-            } else {
-                // TODO ELSE condition with GUI
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); //TODO GUI Error handling
-        }
-    }
+//    @FXML
+//    public void dialogAction(ActionEvent event) {
+//        String uri = uriInput.getText();
+//        try {
+//            createDir();
+//            if (uriValidation(uri)) {
+//                videoId = grabId(uri);
+//                subtitleProcessor = new SubtitleProcessor(videoId, dir);
+//                updateRadio();
+//                Parent root = new FXMLLoader(getClass().getResource("specification_gui.fxml")).load();
+//                System.out.println(root.toString());
+//                uriInput.getScene().setRoot(root);
+//            } else {
+//                warnLabel.setVisible(true);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace(); //TODO GUI Error handling
+//        }
+//    }
 
-    private void createDir() throws IOException {
-        dir = Files.createTempDirectory("youtube-tr-");
+    void createDir() throws IOException {
+        this.dir = Files.createTempDirectory("youtube-tr-");
     }
 
     public void deleteDir() {
-        String[] fs = dir.toFile().list();
+        String[] fs = this.dir.toFile().list();
         if (fs != null) {
             if (fs.length > 0) {
                 for (String s : fs) {
-                    File f = new File(dir.toString(),s);
+                    File f = new File(this.dir.toString(),s);
                     f.delete();
                 }
             }
         }
-        dir.toFile().delete();
+        this.dir.toFile().delete();
     }
 
     public String getDir() {
-        if (dir != null) {
-            return dir.toString();
+        if (this.dir != null) {
+            return this.dir.toString();
         } else {
             return "";
         }
@@ -109,18 +107,16 @@ public class Controller implements Initializable {
         }
     }
 
-    public SubtitleProcessor processSubtitle() {
-        SubtitleProcessor subs = new SubtitleProcessor(videoId, dir);
-        try { // TODO: This is why it took 20 seconds. We can do better
-            subs.checkSubs();
-            subs.downAllSub();
+    public void processSubtitle() {
+        subtitleProcessor = new SubtitleProcessor(videoId, dir);
+        try {
+            subtitleProcessor.checkSubs();
         } catch (YoutubeDLException | IOException e) {
             e.printStackTrace();
         }
-        return subs;
     }
 
-    public SubtitleProcessor processSubtitle(boolean lang, boolean type) {
+    public SubtitleProcessor downSubtitle(boolean lang, boolean type) {
         SubtitleProcessor subs = new SubtitleProcessor(videoId, dir);
         try {
             subs.checkSubs();
@@ -131,9 +127,19 @@ public class Controller implements Initializable {
         return subs;
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
+//    public void updateRadio() {
+//        try {
+//            subtitleProcessor.checkSubs();
+//            if (typeGen.isSelected()) {
+//                System.out.println("Not yet implemented"); //TODO
+//            }
+//            idCC.setDisable(!subtitleProcessor.idCapt);
+//            idSubs.setDisable(!subtitleProcessor.idSubs);
+//            enCC.setDisable(!subtitleProcessor.enCapt);
+//            enSubs.setDisable(!subtitleProcessor.enSubs);
+//        } catch (Exception e) {
+//            e.printStackTrace(); //TODO: GUI Exception
+//        }
+//    }
 }
 
