@@ -21,7 +21,7 @@ public class DialogController implements Initializable {
         String uri = uriInput.getText();
         warnLabel.setVisible(false);
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("specification_gui.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Specification.fxml"));
             Parent root = loader.load();
             GUIController c = loader.getController();
             if (c.uriValidation(uri)) {

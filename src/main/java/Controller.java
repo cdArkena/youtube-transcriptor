@@ -63,8 +63,7 @@ public class Controller {
         YoutubeDL.setExecutablePath(exePath.toString());
     }
 
-    public boolean validateYTDLPath()
-        throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
+    public boolean validateYTDLPath() throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
         Matcher matcher = validateYTDL.matcher(YoutubeDL.getVersion());
         return matcher.matches();
     }

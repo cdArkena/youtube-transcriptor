@@ -16,9 +16,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             mainStage = primaryStage;
-            Parent uriErrorRoot = FXMLLoader.load(getClass().getResource("dialog_gui.fxml"));
-            Scene uniError = new Scene(uriErrorRoot, 450, 150);
-            primaryStage.setScene(uniError);
+            Parent root = FXMLLoader.load(getClass().getResource("Dialog.fxml"));
+            Scene scene = new Scene(root, 450, 150);
+            primaryStage.setScene(scene);
             primaryStage.setTitle("Masukkan URI");
             primaryStage.show();
         } catch (Exception e) {
