@@ -1,6 +1,5 @@
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,21 +16,24 @@ public class DialogController implements Initializable {
     @FXML
     public Label warnLabel;
 
-    public void dialogAction(ActionEvent event) {
+
+    public void dialogAction() {
         String uri = uriInput.getText();
         warnLabel.setVisible(false);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("specification_gui.fxml"));
             Parent root = loader.load();
-            SpecController controller = loader.getController();
-            if (controller.uriValidation(uri)) {
+            GUIController c = loader.getController();
+            if (c.uriValidation(uri)) {
                 Stage stage = (Stage) uriInput.getScene().getWindow();
-                stage.setScene(new Scene(root, 450,200));
+                stage.setScene(new Scene(root, 450, 200));
+                stage.setTitle("Pilih spesifikasi");
                 stage.show();
-                controller.createDir();
-                controller.videoId = controller.grabId(uri);
-                controller.processSubtitle();
-                controller.updateRadio();
+                c.createDir();
+                c.setVideoId(uri);
+                c.processSubtitle();
+                c.updateRadio();
+
             } else {
                 warnLabel.setVisible(true);
             }

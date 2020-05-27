@@ -34,7 +34,6 @@ public class SubtitleProcessor {
 
     public void checkSubs() throws IOException, YoutubeDLException {
 
-        System.out.println(prefix+videoId);
         YoutubeDLRequest yt = new YoutubeDLRequest(prefix + videoId);
         yt.setOption("list-subs");
         YoutubeDLResponse res = YoutubeDL.execute(yt);
