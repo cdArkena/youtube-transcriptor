@@ -21,12 +21,13 @@ public class DialogController implements Initializable {
         String uri = uriInput.getText();
         warnLabel.setVisible(false);
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("specification_gui.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Specification.fxml"));
             Parent root = loader.load();
             SpecController controller = loader.getController();
             if (controller.uriValidation(uri)) {
                 Stage stage = (Stage) uriInput.getScene().getWindow();
                 stage.setScene(new Scene(root, 450,200));
+                stage.setTitle("YouTube Transcript");
                 stage.show();
                 controller.createDir();
                 controller.videoId = controller.grabId(uri);
