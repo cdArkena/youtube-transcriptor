@@ -9,11 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 
 public class Controller {
 
-    public static Stage mainStage;
     protected static Path dir;
     @FXML
     public MenuItem changeLanguage;

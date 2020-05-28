@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.web.WebEngine;
@@ -18,6 +19,7 @@ public class TranscriptController extends Controller implements Initializable {
     public WebView video;
     @FXML
     public ListView<LinkedText> transcript;
+    public Label statusURI;
 
     public void loadWebView(String URI) {
         webEngine.load(URI);
@@ -26,14 +28,5 @@ public class TranscriptController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         webEngine = video.getEngine();
-        webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
-            @Override
-            public void changed(ObservableValue<? extends State> observableValue, State state,
-                State t1) {
-                if (state == State.SUCCEEDED) {
-                    System.out.println(webEngine.getLocation());
-                }
-            }
-        });
     }
 }
