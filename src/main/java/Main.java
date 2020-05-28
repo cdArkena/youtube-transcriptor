@@ -19,7 +19,7 @@ public class Main extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("Dialog.fxml"));
             Scene scene = new Scene(root, 450, 150);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Masukkan URI");
+            primaryStage.setTitle("Masukkan URL Youtube");
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,9 +27,9 @@ public class Main extends Application {
     }
 
     public void stop() {
-        Path dir = GUIController.dir;
+        Path dir = SpecificationController.dir;
         if (dir != null) {
-            GUIController.deleteDir();
+            SpecificationController.deleteDir();
         }
     }
 }
