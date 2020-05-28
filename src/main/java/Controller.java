@@ -7,20 +7,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioButton;
-import javafx.stage.Stage;
 
 public class Controller {
 
     @FXML
     public MenuItem changeLanguage;
-
-    public static Stage mainStage;
-    protected static Path dir;
     public SubtitleProcessor subtitleProcessor;
+    protected static Path dir;
     protected String videoId = "";
     private Pattern validateYTDL = Pattern.compile("[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\s+");
     private Pattern validateUri = Pattern.compile(
@@ -40,6 +35,11 @@ public class Controller {
         dir.toFile().delete();
     }
 
+    public boolean uriValidation(String uri) {
+        Matcher matcher = validateUri.matcher(uri);
+        return matcher.matches();
+    }
+
     public void setVideoId(String videoId) {
         this.videoId = getId(videoId);
     }
@@ -51,6 +51,11 @@ public class Controller {
         } else {
             return "";
         }
+    }
+
+    public String buildEmbed(String videoId) {
+        String prefix = "https://www.youtube.com/embed/%s?autoplay=1&showinfo=0&controls=0&disablekb=1";
+        return String.format(prefix, videoId);
     }
 
     public void createDir() throws IOException {
@@ -70,7 +75,8 @@ public class Controller {
         YoutubeDL.setExecutablePath(exePath.toString());
     }
 
-    public boolean validateYTDLPath() throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
+    public boolean validateYTDLPath()
+        throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
         Matcher matcher = validateYTDL.matcher(YoutubeDL.getVersion());
         return matcher.matches();
     }
@@ -79,11 +85,6 @@ public class Controller {
         /*
         Tadinya gw pengen user bisa download executable ytdl langsung dari app tapi keknya sulit.
          */
-    }
-
-    public boolean uriValidation(String uri) {
-        Matcher matcher = validateUri.matcher(uri);
-        return matcher.matches();
     }
 
     public void processSubtitle() {
@@ -106,4 +107,3 @@ public class Controller {
     }
 
 }
-
