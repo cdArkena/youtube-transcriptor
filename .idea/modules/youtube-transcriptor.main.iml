@@ -5,7 +5,7 @@
       <map />
     </option>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/../../build/classes/java/main" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/main">
@@ -34,6 +34,15 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-win64-7.7.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-linux64-arm-7.7.1.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -43,25 +52,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-mac-7.7.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-linux64-7.7.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-win64-7.7.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -85,14 +76,20 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-mac-7.7.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Gradle: com.github.sapher:youtubedl-java:1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.cloud:google-cloud-speech:1.23.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.openjfx:javafx-web:win:12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-fxml:win:12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-controls:win:12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-controls:12.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.openjfx:javafx-media:win:12.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.openjfx:javafx-media:12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-graphics:win:12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-graphics:12.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-base:win:12.0.1" level="project" />

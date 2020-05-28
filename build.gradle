@@ -24,7 +24,7 @@ dependencies {
 }
 
 javafx {
-    modules = ['javafx.controls', 'javafx.web','javafx.fxml']
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 sourceSets {

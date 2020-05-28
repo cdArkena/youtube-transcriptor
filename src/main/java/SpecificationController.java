@@ -57,9 +57,10 @@ public class SpecificationController extends Controller implements Initializable
                 if (controller != null) { //test
                     Stage stage = (Stage) idCC.getScene().getWindow();
                     stage.setScene(new Scene(root, 900, 600));
-                    stage.setTitle("YouTube Transcript - v1.0.3a");
-                    stage.show();
+                    stage.setTitle("YouTube Transcript - v1.0.4a");
+                    controller.loadEngine();
                     controller.loadWebView(buildEmbed(this.videoId));
+                    stage.show();
                 } else {
                     System.out.println("Exception"); // TODO GUI Exception
                 }

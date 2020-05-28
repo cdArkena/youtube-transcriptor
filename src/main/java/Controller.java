@@ -12,15 +12,28 @@ import javafx.scene.control.MenuItem;
 
 public class Controller {
 
-    protected static Path dir;
     @FXML
     public MenuItem changeLanguage;
     public SubtitleProcessor subtitleProcessor;
+    protected static Path dir;
     protected String videoId = "";
     private Pattern validateYTDL = Pattern.compile("[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\s+");
     private Pattern validateUri = Pattern.compile(
         "^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
     private Pattern getId = Pattern.compile("([0-9a-zA-Z]{11})");
+
+    public static void deleteDir() {
+        String[] fs = dir.toFile().list();
+        if (fs != null) {
+            if (fs.length > 0) {
+                for (String s : fs) {
+                    File f = new File(dir.toString(), s);
+                    f.delete();
+                }
+            }
+        }
+        dir.toFile().delete();
+    }
 
     public boolean uriValidation(String uri) {
         Matcher matcher = validateUri.matcher(uri);
@@ -56,20 +69,6 @@ public class Controller {
             return "";
         }
     }
-
-    public static void deleteDir() {
-        String[] fs = dir.toFile().list();
-        if (fs != null) {
-            if (fs.length > 0) {
-                for (String s : fs) {
-                    File f = new File(dir.toString(), s);
-                    f.delete();
-                }
-            }
-        }
-        dir.toFile().delete();
-    }
-
 
     public void changeYTDLPath(String path) { //TODO Validate, harus .exe (GUI Side)
         Path exePath = Paths.get(path);

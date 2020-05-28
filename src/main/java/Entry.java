@@ -1,3 +1,6 @@
+import static com.teamdev.jxbrowser.os.Environment.isMac;
+
+import com.teamdev.jxbrowser.engine.Engine;
 import java.nio.file.Path;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -5,11 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Entry extends Application {
 
     static Stage mainStage;
 
     public static void main(String[] args) {
+        System.setProperty("jxbrowser.license.key",
+            "1BNDHFSC1FVM5M44WOBXTBJ7U0GQJQSC3SKQUD77RX06U1J12FZGN5L8YE39N66ASLVI6X");
         launch();
     }
 
@@ -30,6 +35,16 @@ public class Main extends Application {
         Path dir = SpecificationController.dir;
         if (dir != null) {
             SpecificationController.deleteDir();
+        }
+        Engine engine = TranscriptController.getEngine();
+        if (engine != null) {
+            if (isMac()) {
+                // On macOS the engine must be closed in UI thread
+                engine.close();
+            } else {
+                // On Windows and Linux it must be closed in non-UI thread
+                new Thread(engine::close).start();
+            }
         }
     }
 }
