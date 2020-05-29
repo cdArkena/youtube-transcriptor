@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Mini Project.iml" filepath="$PROJECT_DIR$/.idea/Mini Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/youtube-transcriptor.iml" filepath="$PROJECT_DIR$/.idea/modules/youtube-transcriptor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/youtube-transcriptor.main.iml" filepath="$PROJECT_DIR$/.idea/modules/youtube-transcriptor.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/youtube-transcriptor.test.iml" filepath="$PROJECT_DIR$/.idea/modules/youtube-transcriptor.test.iml" />
     </modules>
   </component>
 </project>

@@ -34,6 +34,15 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-linux64-arm-7.7.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-win64-7.7.1.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -43,7 +52,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-linux64-arm-7.7.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-mac-7.7.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -61,15 +70,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-win32-7.7.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-swt-7.7.1.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -79,7 +79,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-mac-7.7.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/jxbrowser-win32-7.7.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

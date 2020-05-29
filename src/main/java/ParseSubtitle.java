@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 
     /*
@@ -32,10 +33,15 @@ public class ParseSubtitle {
                          String embedPrefix = "https://www.youtube.com/embed/%s?&start=%s&autoplay=1&showinfo=0&controls=0&disablekb=1&rel=0";
                          String uri = String.format(embedPrefix, videoId, time);
                          LinkedText lt = new LinkedText(br.readLine().strip(), uri);
-                         lt.setOnMouseClicked(e -> {
-                            view.getBrowser().navigation().loadUrl(lt.getUri());
-                         });
-                         transcript.getItems().add(lt);
+                         ObservableList<LinkedText> list = transcript.getItems();
+                         if (list.size() == 0 || !(list.get(list.size()-1).getText().equals(lt.getText()))) {
+                             lt.setStyle("-fx-font: 14 arial;");
+                             lt.setOnMouseClicked(e -> {
+                                 view.getBrowser().navigation().loadUrl(lt.getUri());
+                             });
+                             transcript.getItems().add(lt);
+                             System.out.println(lt.getText());
+                         }
                      }
                      line = br.readLine();
                  }
