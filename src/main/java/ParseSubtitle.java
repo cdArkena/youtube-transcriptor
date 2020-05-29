@@ -34,7 +34,7 @@ public class ParseSubtitle {
 
                          transcript.add(lt);
 
-                         System.out.print(lt.getText());
+                         System.out.print(lt.getText());// Ini jo
                          System.out.print(" - ");
                          System.out.println(lt.getUri());
                      }
