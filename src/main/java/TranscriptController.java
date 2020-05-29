@@ -5,7 +5,7 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.view.javafx.BrowserView;
-import java.lang.annotation.Inherited;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -14,11 +14,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.web.WebView;
 
 public class TranscriptController extends Controller implements Initializable {
 
@@ -27,19 +28,14 @@ public class TranscriptController extends Controller implements Initializable {
     @FXML
     public Label statusURI;
     @FXML
-    public WebView player;
-    @FXML
     public AnchorPane webPane;
+    public SplitPane splitPane;
     @FXML
     BrowserView view;
     @FXML
     static Engine engine;
     @FXML
     private MenuBar menubar;
-    @FXML
-    private WebView video;
-    @FXML
-    private ListView<?> transcript;
     @FXML
     private MenuItem changeLanguage;
     @FXML
@@ -58,25 +54,47 @@ public class TranscriptController extends Controller implements Initializable {
         engine = Engine.newInstance(options);
         Browser browser = engine.newBrowser();
         view = BrowserView.newInstance(browser);
-        view.setLayoutX(121);
-        view.setLayoutY(139);
-        view.maxWidth(MAX_VALUE);
-        view.maxHeight(Region.USE_COMPUTED_SIZE);
         view.minHeight(400);
         view.minWidth(600);
         view.prefHeight(400);
         view.prefWidth(600);
         view.setPickOnBounds(true);
-        webPane.getChildren().add(view);
+        splitPane.getItems().add(0,view);
     }
 
-    public void loadWebView(String URI) {
-        view.getBrowser().navigation().loadUrl(URI);
+    public void loadWebView(String URI, RadioButton toggle) {
+        this.videoId = URI;
+        view.getBrowser().navigation().loadUrl(buildEmbed(URI));
+        statusURI.setText(URI);
+        switch (toggle.getText()) {
+            case "Bahasa Indonesia - Subtitle":
+                loadTranscript(true,true);
+                break;
+            case "Bahasa Indonesia - CC":
+                loadTranscript(true, false);
+                break;
+            case "English - Subtitle":
+                loadTranscript(false, true);
+                break;
+            case "English - CC":
+                loadTranscript(false, false);
+                break;
+            case "Generate via GCloud":
+                loadGenerated(); // TODO
+        }
     }
 
     public void loadTranscript(boolean lang, boolean type) {
-        ObservableList<LinkedText> transcriptList = subtitleProcessor.parseFile(lang, type);
-        ListView<LinkedText> root = new ListView<LinkedText>(transcriptList);
+        String typeString = (type) ? "sub" : "auto";
+        String langString = (lang) ? "id" : "en";
+        String fileName = String.format("%s.%s.%s.vtt", typeString, this.videoId, langString);
+        File file = new File(dir.toFile(), fileName);
+        System.out.println(file.toString());
+        new ParseSubtitle(file, this.videoId, transcript, view);
+    }
+
+    public void loadGenerated() {
+        //TODO
     }
 
     @Override

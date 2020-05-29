@@ -54,7 +54,7 @@ public class Controller {
     }
 
     public String buildEmbed(String videoId) {
-        String prefix = "https://www.youtube.com/embed/%s?autoplay=1&showinfo=0&controls=0&disablekb=1";
+        String prefix = "https://www.youtube.com/embed/%s?&autoplay=1&showinfo=0&controls=0&disablekb=1&rel=0";
         return String.format(prefix, videoId);
     }
 
