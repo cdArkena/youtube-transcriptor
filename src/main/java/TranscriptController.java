@@ -12,8 +12,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 
 public class TranscriptController extends Controller implements Initializable {
@@ -22,14 +26,26 @@ public class TranscriptController extends Controller implements Initializable {
     public ListView<LinkedText> transcript;
     @FXML
     public Label statusURI;
-        @FXML
-        public WebView player;
+    @FXML
+    public WebView player;
     @FXML
     public AnchorPane webPane;
     @FXML
     BrowserView view;
     @FXML
     static Engine engine;
+    @FXML
+    private MenuBar menubar;
+    @FXML
+    private WebView video;
+    @FXML
+    private ListView<?> transcript;
+    @FXML
+    private MenuItem changeLanguage;
+    @FXML
+    private Font x3;
+    @FXML
+    private Color x4;
 
     public static Engine getEngine() {
         return engine;
@@ -56,6 +72,11 @@ public class TranscriptController extends Controller implements Initializable {
 
     public void loadWebView(String URI) {
         view.getBrowser().navigation().loadUrl(URI);
+    }
+
+    public void loadTranscript(boolean lang, boolean type) {
+        ObservableList<LinkedText> transcriptList = subtitleProcessor.parseFile(lang, type);
+        ListView<LinkedText> root = new ListView<LinkedText>(transcriptList);
     }
 
     @Override
