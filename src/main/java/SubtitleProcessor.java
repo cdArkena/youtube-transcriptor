@@ -17,12 +17,12 @@ public class SubtitleProcessor {
     Subtitle: Might be more precise and more prioritized
      */
 
+    static String prefix = "https://www.youtube.com/watch?v=";
     public boolean idCapt = false;
     public boolean idSubs = false;
     public boolean enCapt = false;
     public boolean enSubs = false;
     private String videoId;
-    static String prefix = "https://www.youtube.com/watch?v=";
     private Path dir;
 
     public SubtitleProcessor(String videoId, Path dir) {
@@ -109,24 +109,21 @@ public class SubtitleProcessor {
 
     public void downAllSub() { // This is veeeeery slow
         try {
-            if (idSubs) downSub(true, true);
-            if (idCapt) downSub(true, false);
-            if (enSubs) downSub(false, true);
-            if (enCapt) downSub(false, false);
+            if (idSubs) {
+                downSub(true, true);
+            }
+            if (idCapt) {
+                downSub(true, false);
+            }
+            if (enSubs) {
+                downSub(false, true);
+            }
+            if (enCapt) {
+                downSub(false, false);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public ArrayList<LinkedText> parseFile(boolean type, boolean lang) {
-        String typeString = (type) ? "sub" : "auto";
-        String langString = (lang) ? "id" : "en";
-        String fileName = String.format("%s.%s.%s.vtt", typeString, videoId, langString);
-        File file = new File(dir.toFile(), fileName);
-        System.out.println(file.toString());
-        return new ParseSubtitle(file, videoId).getTranscript(); // The array is for storage
-        // If the user changed the language setting, the previous language is still stored
-        // And the new language is processed on-the-fly
     }
 
     public String getVideoId() {

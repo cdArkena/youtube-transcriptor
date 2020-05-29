@@ -19,11 +19,10 @@ public class DialogController implements Initializable {
 
     public void dialogAction() {
         String uri = uriInput.getText();
-        warnLabel.setVisible(false);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Specification.fxml"));
             Parent root = loader.load();
-            GUIController c = loader.getController();
+            SpecificationController c = loader.getController();
             if (c.uriValidation(uri)) {
                 Stage stage = (Stage) uriInput.getScene().getWindow();
                 stage.setScene(new Scene(root, 450, 200));
@@ -31,9 +30,9 @@ public class DialogController implements Initializable {
                 stage.show();
                 c.createDir();
                 c.setVideoId(uri);
+                c.changeYTDLPath("src/main/java/youtube-dl.exe");
                 c.processSubtitle();
                 c.updateRadio();
-
             } else {
                 warnLabel.setVisible(true);
             }

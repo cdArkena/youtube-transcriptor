@@ -1,36 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.web.WebView?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TranscriptController">
   <children>
-    <MenuBar fx:id="menubar" VBox.vgrow="NEVER">
+    <MenuBar VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
             <MenuItem mnemonicParsing="false" text="New" />
             <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
+            <Menu mnemonicParsing="false" text="Change Language" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
+            <MenuItem mnemonicParsing="false" text="Find Text" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Preferences…" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -39,34 +25,26 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About YouTube Transcript" />
+            <MenuItem mnemonicParsing="false" text="About" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.7026726057906458" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane fx:id="splitPane" dividerPositions="0.7026726057906458" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
-        <AnchorPane prefHeight="552.0" prefWidth="505.0">
+<!--        <AnchorPane fx:id="webPane" prefHeight="552.0" prefWidth="505.0">-->
+<!--          <children>-->
+<!--&lt;!&ndash;                  <WebView layoutX="121.0" layoutY="139.0" maxHeight="-1.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />&ndash;&gt;-->
+<!--          </children>-->
+<!--        </AnchorPane>-->
+        <AnchorPane prefHeight="552.0" prefWidth="264.0">
           <children>
-            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Video" textAlignment="CENTER" wrapText="false">
-              <font>
-                <Font size="18.0" fx:id="x1" />
-              </font>
-              <textFill>
-                <Color blue="0.624" green="0.624" red="0.624" fx:id="x2" />
-              </textFill>
-            </Label>
-                  <WebView fx:id="video" layoutX="121.0" layoutY="139.0" prefHeight="552.0" prefWidth="628.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-          </children>
-        </AnchorPane>
-        <AnchorPane prefHeight="552.0" prefWidth="494.0">
-          <children>
-            <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Transcript" textAlignment="CENTER" textFill="$x2" wrapText="false" />
                   <ListView fx:id="transcript" layoutX="7.0" prefHeight="552.0" prefWidth="264.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <contextMenu>
                         <ContextMenu>
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                            <MenuItem fx:id="changeLanguage" mnemonicParsing="false" text="Change Language" />
+                              <MenuItem mnemonicParsing="false" text="Find Text" />
                           </items>
                         </ContextMenu>
                      </contextMenu></ListView>
@@ -76,16 +54,16 @@
     </SplitPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
       <children>
-        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="https://www.youtube.com/watch?v=" HBox.hgrow="ALWAYS">
+        <Label fx:id="statusURI" maxHeight="1.7976931348623157E308" maxWidth="-1.0" HBox.hgrow="ALWAYS">
           <font>
             <Font size="11.0" fx:id="x3" />
           </font>
           <textFill>
-            <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
+            <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
           </textFill>
         </Label>
         <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-        <Label font="$x3" maxWidth="-1.0" text="" textFill="$x4" HBox.hgrow="NEVER" />
+        <Label fx:id="statusLang" font="$x3" maxWidth="-1.0" text="" textFill="$x4" HBox.hgrow="NEVER" />
       </children>
       <padding>
         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
