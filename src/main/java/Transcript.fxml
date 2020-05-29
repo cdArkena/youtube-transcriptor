@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.teamdev.jxbrowser.view.javafx.BrowserView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.SeparatorMenuItem?>
@@ -17,10 +16,6 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.geometry.Insets?>
-<?import com.teamdev.jxbrowser.view.javafx.BrowserView?>
-<?import javafx.embed.swing.SwingNode?>
-<?import javafx.scene.web.WebView?>
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TranscriptController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
@@ -49,7 +44,7 @@
       <items>
         <AnchorPane fx:id="webPane" prefHeight="552.0" prefWidth="505.0">
           <children>
-                  <WebView layoutX="121.0" layoutY="139.0" maxHeight="-1.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+<!--                  <WebView layoutX="121.0" layoutY="139.0" maxHeight="-1.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
           </children>
         </AnchorPane>
         <AnchorPane prefHeight="552.0" prefWidth="494.0">

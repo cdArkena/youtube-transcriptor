@@ -126,17 +126,6 @@ public class SubtitleProcessor {
         }
     }
 
-    public ArrayList<LinkedText> parseFile(boolean type, boolean lang) {
-        String typeString = (type) ? "sub" : "auto";
-        String langString = (lang) ? "id" : "en";
-        String fileName = String.format("%s.%s.%s.vtt", typeString, videoId, langString);
-        File file = new File(dir.toFile(), fileName);
-        System.out.println(file.toString());
-        return new ParseSubtitle(file, videoId).getTranscript(); // The array is for storage
-        // If the user changed the language setting, the previous language is still stored
-        // And the new language is processed on-the-fly
-    }
-
     public String getVideoId() {
         return videoId;
     }

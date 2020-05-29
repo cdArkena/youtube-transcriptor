@@ -46,7 +46,22 @@ public class SpecificationController extends Controller implements Initializable
         }
     }
 
+    public void updateProcess() {
+        try {
+            idCC.setDisable(true);
+            idSubs.setDisable(true);
+            enCC.setDisable(true);
+            enSubs.setDisable(true);
+            typeGen.setDisable(true);
+            transcriptButton.setDisable(true);
+            processFlag.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace(); //TODO: GUI Exception
+        }
+    }
+
     public void transcript(ActionEvent event) {
+        updateProcess();
         if (typeGen.isSelected()) {
             // TODO: GenerateSub
         } else {
@@ -54,12 +69,16 @@ public class SpecificationController extends Controller implements Initializable
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Transcript.fxml"));
                 Parent root = loader.load();
                 TranscriptController controller = loader.getController();
-                if (controller != null) { //test
+                if (controller != null) {
                     Stage stage = (Stage) idCC.getScene().getWindow();
                     stage.setScene(new Scene(root, 900, 600));
-                    stage.setTitle("YouTube Transcript - v1.0.4a");
+                    stage.setTitle("YouTube Transcript - v1.0.5a");
                     controller.loadEngine();
-                    controller.loadWebView(buildEmbed(this.videoId));
+                    if (idSubs.isSelected()) subtitleProcessor.downSub(true, true);
+                    if (idCC.isSelected()) subtitleProcessor.downSub(true, false);
+                    if (enSubs.isSelected()) subtitleProcessor.downSub(false, true);
+                    if (enCC.isSelected()) subtitleProcessor.downSub(false, false);
+                    controller.loadWebView(this.videoId, (RadioButton) toggleLang.getSelectedToggle());
                     stage.show();
                 } else {
                     System.out.println("Exception"); // TODO GUI Exception

@@ -19,7 +19,7 @@
   </rowConstraints>
    <children>
       <Label prefHeight="38.0" prefWidth="244.0" text="Pilih spesifikasi teks transkripsi yang tersedia" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-      <RadioButton fx:id="idCC" disable="true" mnemonicParsing="false" selected="true" text="Bahasa Indonesia - CC" GridPane.rowIndex="2">
+      <RadioButton fx:id="idCC" disable="true" mnemonicParsing="false" text="Bahasa Indonesia - CC" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="30.0" />
          </GridPane.margin>
@@ -47,7 +47,7 @@
             <Insets left="30.0" />
          </GridPane.margin>
       </RadioButton>
-      <RadioButton fx:id="typeGen" disable="true" mnemonicParsing="false" text="Generate via GCloud" toggleGroup="$toggleLang" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+      <RadioButton fx:id="typeGen" disable="true" mnemonicParsing="false" selected="true" text="Generate via GCloud" toggleGroup="$toggleLang" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
