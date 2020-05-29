@@ -15,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -28,6 +29,7 @@ public class TranscriptController extends Controller implements Initializable {
     public Label statusURI;
     @FXML
     public AnchorPane webPane;
+    public SplitPane splitPane;
     @FXML
     BrowserView view;
     @FXML
@@ -52,16 +54,12 @@ public class TranscriptController extends Controller implements Initializable {
         engine = Engine.newInstance(options);
         Browser browser = engine.newBrowser();
         view = BrowserView.newInstance(browser);
-        view.setLayoutX(121);
-        view.setLayoutY(139);
-        view.maxWidth(MAX_VALUE);
-        view.maxHeight(Region.USE_COMPUTED_SIZE);
         view.minHeight(400);
         view.minWidth(600);
         view.prefHeight(400);
         view.prefWidth(600);
         view.setPickOnBounds(true);
-        webPane.getChildren().add(view);
+        splitPane.getItems().add(0,view);
     }
 
     public void loadWebView(String URI, RadioButton toggle) {

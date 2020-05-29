@@ -30,13 +30,13 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.7026726057906458" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane fx:id="splitPane" dividerPositions="0.7026726057906458" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
-        <AnchorPane fx:id="webPane" prefHeight="552.0" prefWidth="505.0">
-          <children>
-<!--                  <WebView layoutX="121.0" layoutY="139.0" maxHeight="-1.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
-          </children>
-        </AnchorPane>
+<!--        <AnchorPane fx:id="webPane" prefHeight="552.0" prefWidth="505.0">-->
+<!--          <children>-->
+<!--&lt;!&ndash;                  <WebView layoutX="121.0" layoutY="139.0" maxHeight="-1.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />&ndash;&gt;-->
+<!--          </children>-->
+<!--        </AnchorPane>-->
         <AnchorPane prefHeight="552.0" prefWidth="264.0">
           <children>
                   <ListView fx:id="transcript" layoutX="7.0" prefHeight="552.0" prefWidth="264.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
