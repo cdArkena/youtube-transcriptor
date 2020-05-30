@@ -17,12 +17,12 @@
     <RowConstraints maxHeight="70.8000244140625" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="YouTube URL:" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Teks transkripsi:" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="15.0" />
          </GridPane.margin>
       </Text>
-      <TextField fx:id="uriInput" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+      <TextField fx:id="textInput" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets right="25.0" />
          </GridPane.margin>
@@ -32,11 +32,16 @@
             <Insets right="25.0" />
          </GridPane.margin>
       </Button>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Silakan input URL video YouTube yang ingin Anda dapatkan transkripnya." GridPane.columnSpan="2" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Silakan masukkan teks transkripsi yang anda akan cari." GridPane.columnSpan="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="15.0" />
          </GridPane.margin>
       </Text>
-      <Label fx:id="warnLabel" alignment="TOP_RIGHT" contentDisplay="RIGHT" text="URL yang dimasukkan tidak valid!" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+      <Label fx:id="warnLabel" alignment="TOP_RIGHT" contentDisplay="RIGHT" text="Teks yang anda cari tidak ditemukan" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+      <BorderPane prefHeight="200.0" prefWidth="200.0" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+      <AnchorPane prefHeight="93.0" prefWidth="95.0" />
    </children>
 </GridPane>
