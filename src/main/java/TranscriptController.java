@@ -6,6 +6,7 @@ import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.view.javafx.BrowserView;
 import java.io.File;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,15 +21,20 @@ import javafx.scene.text.Font;
 public class TranscriptController extends Controller implements Initializable {
 
     @FXML
+    public static Timer timer;
+    @FXML
+    static Engine engine;
+    @FXML
     public ListView<LinkedText> transcript;
     @FXML
     public Label statusURI;
     @FXML
     public SplitPane splitPane;
+    public LinkedText text;
+    public int iterateIndex = 0;
+    public Iterator<LinkedText> iterate;
     @FXML
     BrowserView view;
-    @FXML
-    static Engine engine;
     @FXML
     private MenuBar menubar;
     @FXML
@@ -37,8 +43,6 @@ public class TranscriptController extends Controller implements Initializable {
     private Font x3;
     @FXML
     private Color x4;
-    @FXML
-    private Timer timer;
 
     public static Engine getEngine() {
         return engine;
@@ -56,15 +60,22 @@ public class TranscriptController extends Controller implements Initializable {
         view.prefHeight(400);
         view.prefWidth(600);
         view.setPickOnBounds(true);
-        splitPane.getItems().add(0,view);
+        splitPane.getItems().add(0, view);
     }
 
     public void loadWebView(String videoId, File file) {
         this.videoId = videoId;
-        this.timer = new Timer() {
+        timer = new Timer() {
             @Override
             protected void onTick() {
-
+                if (text.getTime() == this.getElapsedTime()) {
+                    transcript.getSelectionModel().select(text);
+                    transcript.getFocusModel().focus(iterateIndex);
+                    if (iterate.hasNext()) {
+                        iterateIndex++;
+                        text = iterate.next();
+                    }
+                }
             }
 
             @Override
@@ -75,10 +86,23 @@ public class TranscriptController extends Controller implements Initializable {
         view.getBrowser().navigation().loadUrl(buildEmbed(videoId));
         statusURI.setText(videoId);
         new ParseSubtitle(file, videoId, transcript, view);
+        iterate = transcript.getItems().iterator();
+        text = iterate.next();
+        transcript.getSelectionModel().select(text);
+        transcript.getFocusModel().focus(0);
+        timeEvent();
     }
 
     public void loadGenerated() {
         //TODO
+    }
+
+    public void timeEvent() {
+        if (timer.isRunning()) {
+            timer.pause();
+        } else {
+            timer.resume();
+        }
     }
 
     @Override
@@ -86,3 +110,15 @@ public class TranscriptController extends Controller implements Initializable {
 
     }
 }
+
+//        List<Frame> frame1 = view.getBrowser().frames();
+//        System.out.println(1);
+//        for (Frame frame : frame1) {
+//            System.out.println(2);
+//            frame.document().ifPresent(document -> {
+//                System.out.println(3);
+//                document.addEventListener(EventType.CLICK, event -> {
+//                    System.out.println(4);
+//                }, false);
+//            });
+//        }

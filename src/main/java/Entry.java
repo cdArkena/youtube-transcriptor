@@ -46,5 +46,6 @@ public class Entry extends Application {
                 new Thread(engine::close).start();
             }
         }
+        TranscriptController.timer.cancel();
     }
 }

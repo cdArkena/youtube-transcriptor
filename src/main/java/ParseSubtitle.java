@@ -16,8 +16,7 @@ public class ParseSubtitle {
 
     Pattern timestamp = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})\\.(\\d{3}) --> ");
 
-    ParseSubtitle(File f, String videoId, ListView<LinkedText> transcript,
-        BrowserView view) {
+    ParseSubtitle(File f, String videoId, ListView<LinkedText> transcript, BrowserView view) {
         if (f.exists()) {
             String line;
             try {
@@ -34,8 +33,10 @@ public class ParseSubtitle {
                         if (!text.strip().equals("")) {
                             LinkedText lt = new LinkedText(text, videoId, time);
                             lt.setStyle("-fx-font: 14 arial;");
-                            lt.setOnMouseClicked(
-                                e -> view.getBrowser().navigation().loadUrl(lt.getUri()));
+                            lt.setOnMouseClicked(e -> {
+                                view.getBrowser().navigation().loadUrl(lt.getUri());
+                                TranscriptController.timer.setElapsedTime(time);
+                            });
                             ObservableList<LinkedText> list = transcript.getItems();
                             if (list.size() != 0 && (list.get(list.size() - 1).getText()
                                 .equals(lt.getText()))) {
