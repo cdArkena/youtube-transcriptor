@@ -7,13 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
 
 public class Controller {
 
-    @FXML
-    public MenuItem changeLanguage;
     public SubtitleProcessor subtitleProcessor;
     protected static Path dir;
     protected String videoId = "";
@@ -54,20 +50,12 @@ public class Controller {
     }
 
     public String buildEmbed(String videoId) {
-        String prefix = "https://www.youtube.com/embed/%s?&autoplay=0&showinfo=0&controls=0&disablekb=1&rel=0";
+        String prefix = "https://www.youtube.com/embed/%s?&autoplay=1&showinfo=0&controls=0&disablekb=1&rel=0";
         return String.format(prefix, videoId);
     }
 
     public void createDir() throws IOException {
         dir = Files.createTempDirectory("youtube-tr-");
-    }
-
-    public String getDir() {
-        if (dir != null) {
-            return dir.toString();
-        } else {
-            return "";
-        }
     }
 
     public void changeYTDLPath(String path) { //TODO Validate, harus .exe (GUI Side)
@@ -95,15 +83,4 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
-    public void downSubtitle(boolean lang, boolean type) {
-        if (subtitleProcessor != null) {
-            try {
-                subtitleProcessor.downSub(lang, type); // just don't download everything at once
-            } catch (YoutubeDLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

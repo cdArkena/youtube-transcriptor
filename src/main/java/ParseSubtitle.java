@@ -36,6 +36,8 @@ public class ParseSubtitle {
                             lt.setOnMouseClicked(e -> {
                                 view.getBrowser().navigation().loadUrl(lt.getUri());
                                 TranscriptController.timer.setElapsedTime(time);
+                                TranscriptController.text = lt;
+                                TranscriptController.iterateIndex = transcript.getItems().indexOf(lt);
                             });
                             ObservableList<LinkedText> list = transcript.getItems();
                             if (list.size() != 0 && (list.get(list.size() - 1).getText()

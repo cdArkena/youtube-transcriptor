@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -34,6 +35,8 @@ public class SpecificationController extends Controller implements Initializable
     public Button transcriptButton;
     @FXML
     public Label warnLabel;
+    @FXML
+    public CheckBox scroll;
 
     public void updateRadio() {
         try {
@@ -41,9 +44,10 @@ public class SpecificationController extends Controller implements Initializable
             idSubs.setDisable(!subtitleProcessor.idSubs);
             enCC.setDisable(!subtitleProcessor.enCapt);
             enSubs.setDisable(!subtitleProcessor.enSubs);
+            scroll.setDisable(false);
             typeGen.setDisable(false);
-            transcriptButton.setDisable(false);
             processFlag.setVisible(false);
+            transcriptButton.setDisable(false);
         } catch (Exception e) {
             e.printStackTrace(); //TODO: GUI Exception
         }
@@ -51,13 +55,14 @@ public class SpecificationController extends Controller implements Initializable
 
     public void updateProcess() {
         try {
+            processFlag.setVisible(true);
             idCC.setDisable(true);
-            idSubs.setDisable(true);
             enCC.setDisable(true);
+            idSubs.setDisable(true);
             enSubs.setDisable(true);
+            scroll.setDisable(true);
             typeGen.setDisable(true);
             transcriptButton.setDisable(true);
-            processFlag.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace(); //TODO: GUI Exception
         }
@@ -97,6 +102,7 @@ public class SpecificationController extends Controller implements Initializable
                     Stage stage = (Stage) idCC.getScene().getWindow();
                     stage.setScene(new Scene(root, 900, 600));
                     stage.setTitle("YouTube Transcript - v1.0.5a");
+                    if (scroll.isSelected()) controller.scroll = true;
                     controller.loadEngine();
                     controller.loadWebView(this.videoId, transcriptFile);
                     stage.show();

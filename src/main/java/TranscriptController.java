@@ -6,7 +6,6 @@ import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.view.javafx.BrowserView;
 import java.io.File;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +21,9 @@ public class TranscriptController extends Controller implements Initializable {
 
     @FXML
     public static Timer timer;
+    public static LinkedText text;
+    public static int iterateIndex = 0;
+    public boolean scroll;
     @FXML
     static Engine engine;
     @FXML
@@ -30,9 +32,6 @@ public class TranscriptController extends Controller implements Initializable {
     public Label statusURI;
     @FXML
     public SplitPane splitPane;
-    public LinkedText text;
-    public int iterateIndex = 0;
-    public Iterator<LinkedText> iterate;
     @FXML
     BrowserView view;
     @FXML
@@ -68,14 +67,13 @@ public class TranscriptController extends Controller implements Initializable {
         timer = new Timer() {
             @Override
             protected void onTick() {
-                if (text.getTime() == this.getElapsedTime()) {
+                if (text.getTime() == this.getElapsedTime() || text.getTime() < this.getElapsedTime()) {
+                    if (scroll) transcript.scrollTo(text); // this is slow
                     transcript.getSelectionModel().select(text);
                     transcript.getFocusModel().focus(iterateIndex);
-                    if (iterate.hasNext()) {
-                        iterateIndex++;
-                        text = iterate.next();
-                    }
+                    iterateIndex++;
                 }
+                text = transcript.getItems().get(iterateIndex);
             }
 
             @Override
@@ -86,8 +84,7 @@ public class TranscriptController extends Controller implements Initializable {
         view.getBrowser().navigation().loadUrl(buildEmbed(videoId));
         statusURI.setText(videoId);
         new ParseSubtitle(file, videoId, transcript, view);
-        iterate = transcript.getItems().iterator();
-        text = iterate.next();
+        text = transcript.getItems().get(iterateIndex);
         transcript.getSelectionModel().select(text);
         transcript.getFocusModel().focus(0);
         timeEvent();

@@ -15,6 +15,7 @@
     <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
@@ -52,11 +53,12 @@
             <Insets />
          </GridPane.margin>
       </RadioButton>
-      <Button fx:id="transcriptButton" disable="true" mnemonicParsing="false" onAction="#transcript" prefHeight="25.0" prefWidth="170.0" text="Transcript!" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP" />
+      <Button fx:id="transcriptButton" disable="true" mnemonicParsing="false" onAction="#transcript" prefHeight="25.0" prefWidth="170.0" text="Transcript!" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="TOP" />
       <Label fx:id="warnLabel" text="Transkip tidak tersedia" textFill="RED" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="3.0" left="8.0" />
          </GridPane.margin>
       </Label>
+      <CheckBox fx:id="scroll" disable="true" mnemonicParsing="false" text="Auto-Scroll" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
    </children>
 </GridPane>

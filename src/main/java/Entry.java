@@ -1,7 +1,10 @@
 import static com.teamdev.jxbrowser.os.Environment.isMac;
 
 import com.teamdev.jxbrowser.engine.Engine;
+import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
+import java.util.Collections;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,5 +50,6 @@ public class Entry extends Application {
             }
         }
         TranscriptController.timer.cancel();
+        System.exit(0);
     }
 }
