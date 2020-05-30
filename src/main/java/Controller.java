@@ -10,12 +10,10 @@ import java.util.regex.Pattern;
 
 public class Controller {
 
+    public static Path dir;
     public SubtitleProcessor subtitleProcessor;
-    protected static Path dir;
     protected String videoId = "";
-    private Pattern validateYTDL = Pattern.compile("[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\s+");
-    private Pattern validateUri = Pattern.compile(
-        "^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
+    private Pattern validateUri = Pattern.compile("^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
     private Pattern getId = Pattern.compile("([0-9a-zA-Z]{11})");
 
     public static void deleteDir() {
@@ -61,18 +59,6 @@ public class Controller {
     public void changeYTDLPath(String path) { //TODO Validate, harus .exe (GUI Side)
         Path exePath = Paths.get(path);
         YoutubeDL.setExecutablePath(exePath.toString());
-    }
-
-    public boolean validateYTDLPath()
-        throws YoutubeDLException { // TODO: kalo false, disable button, dilarang lanjut
-        Matcher matcher = validateYTDL.matcher(YoutubeDL.getVersion());
-        return matcher.matches();
-    }
-
-    public void downloadYTDL() {
-        /*
-        Tadinya gw pengen user bisa download executable ytdl langsung dari app tapi keknya sulit.
-         */
     }
 
     public void processSubtitle() {

@@ -96,12 +96,10 @@ public class SpecificationController extends Controller implements Initializable
                         case "English - CC":
                             transcriptFile = loadTranscript(false, false);
                             break;
-                        case "Generate via GCloud":
-                            // TODO
                     }
                     Stage stage = (Stage) idCC.getScene().getWindow();
                     stage.setScene(new Scene(root, 900, 600));
-                    stage.setTitle("YouTube Transcript - v1.0.5a");
+                    stage.setTitle("YouTube Transcript - v1.0.6a");
                     if (scroll.isSelected()) controller.scroll = true;
                     controller.loadEngine();
                     controller.loadWebView(this.videoId, transcriptFile);

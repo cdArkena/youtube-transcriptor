@@ -20,7 +20,7 @@ dependencies {
 //    testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'com.github.sapher:youtubedl-java:1.+'
     compile 'com.google.cloud:google-cloud-speech:1.23.0'
-    compile fileTree(dir: 'lib', include: '*.jar')
+    compile fileTree(dir: 'src/main/resources/lib', include: '*.jar')
 }
 
 javafx {
@@ -30,8 +30,14 @@ javafx {
 sourceSets {
     main {
         resources {
-            srcDirs = ["src/main/java"]
-            includes = ["**/*.fxml"]
+            includes = ["**/*.fxml", "**/youtube-dl.exe"]
         }
+    }
+}
+
+jar {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest {
+        attributes 'Main-Class' : 'MainClass'
     }
 }

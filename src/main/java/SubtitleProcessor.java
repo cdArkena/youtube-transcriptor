@@ -30,7 +30,7 @@ public class SubtitleProcessor {
         this.dir = dir;
     }
 
-    // TODO: SRT parser, Generator, Text Exporter
+    // TODO: Text Exporter
 
     public void checkSubs() throws IOException, YoutubeDLException {
 
@@ -86,7 +86,6 @@ public class SubtitleProcessor {
         yt.setOption("sub-format", "vtt");
         yt.setOption("skip-download");
 
-        // Boolean doesn't work? :/
         if (lang && type && idSubs) {
             yt.setOption("write-sub");
             yt.setOption("sub-lang", "id");
@@ -105,28 +104,5 @@ public class SubtitleProcessor {
             yt.setOption("output", Paths.get(dir.toString(), "auto.%(id)s.%(ext)s").toString());
         }
         YoutubeDL.execute(yt);
-    }
-
-    public void downAllSub() { // This is veeeeery slow
-        try {
-            if (idSubs) {
-                downSub(true, true);
-            }
-            if (idCapt) {
-                downSub(true, false);
-            }
-            if (enSubs) {
-                downSub(false, true);
-            }
-            if (enCapt) {
-                downSub(false, false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getVideoId() {
-        return videoId;
     }
 }

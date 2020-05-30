@@ -5,14 +5,18 @@ import java.util.concurrent.TimeUnit;
 
 /**
  *
- * A abstract timer utility class, that supports pause and resume.
+ * An abstract timer utility class, that supports pause and resume.
  *
  * Can be used either as a normal timer or a countdown timer.
  *
- * @author Sridhar Sundar Raman
+ * @author Sridhar Sundar Raman (https://github.com/c05mic/)
+ *
+ * Modification by: Dennis A. Walangadi ()
  *
  */
+
 public abstract class Timer {
+
     public static final int DURATION_INFINITY = -1;
     private volatile boolean isRunning = false;
     private long interval;
@@ -71,7 +75,6 @@ public abstract class Timer {
         isRunning = false;
     }
 
-
     /**
      * Resumes the timer if it was paused, else starts the timer.
      */
@@ -79,12 +82,10 @@ public abstract class Timer {
         this.start();
     }
 
-
     /**
      *	This method is called periodically with the interval set as the delay between subsequent calls.
      */
     protected abstract void onTick();
-
 
     /**
      * This method is called once the timer has run for the specified duration. If the duration was set as infinity, then this method is never called.
@@ -98,7 +99,6 @@ public abstract class Timer {
         pause();
         this.elapsedTime = 0;
     }
-
 
     /**
      * @return the elapsed time (in millis) since the start of the timer.
@@ -126,6 +126,9 @@ public abstract class Timer {
         return isRunning;
     }
 
+    /**
+     * Set the Elasped time value.
+     */
     public void setElapsedTime(int elapsedTime) {
         this.elapsedTime = elapsedTime;
     }

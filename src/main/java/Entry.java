@@ -1,10 +1,7 @@
 import static com.teamdev.jxbrowser.os.Environment.isMac;
 
 import com.teamdev.jxbrowser.engine.Engine;
-import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Path;
-import java.util.Collections;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +12,7 @@ public class Entry extends Application {
 
     static Stage mainStage;
 
-    public static void main(String[] args) {
+    public static void main() {
         System.setProperty("jxbrowser.license.key",
             "1BNDHFSC1FVM5M44WOBXTBJ7U0GQJQSC3SKQUD77RX06U1J12FZGN5L8YE39N66ASLVI6X");
         launch();
@@ -24,7 +21,7 @@ public class Entry extends Application {
     public void start(Stage primaryStage) {
         try {
             mainStage = primaryStage;
-            Parent root = FXMLLoader.load(getClass().getResource("Dialog.fxml"));
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Dialog.fxml"));
             Scene scene = new Scene(root, 450, 150);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Masukkan URL Youtube");

@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 
-    /*
-    Parse every .vtt file into Linkedtext in GUI
-     */
-
 public class ParseSubtitle {
+
+    /*
+    Parse every valid line file into Linkedtext in GUI
+    */
 
     Pattern timestamp = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})\\.(\\d{3}) --> ");
 
@@ -40,8 +40,7 @@ public class ParseSubtitle {
                                 TranscriptController.iterateIndex = transcript.getItems().indexOf(lt);
                             });
                             ObservableList<LinkedText> list = transcript.getItems();
-                            if (list.size() != 0 && (list.get(list.size() - 1).getText()
-                                .equals(lt.getText()))) {
+                            if (list.size() != 0 && (list.get(list.size() - 1).getText().equals(lt.getText()))) {
                                 list.remove(list.size() - 1);
                             }
                             list.add(lt);
