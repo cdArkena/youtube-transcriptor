@@ -30,19 +30,19 @@ public class ParseSubtitle {
                             Integer.parseInt(matcher.group(2)) * 60 +
                             Integer.parseInt(matcher.group(3)) +
                             ((Integer.parseInt(matcher.group(4)) > 500) ? 0 : 1);
-                        String embedPrefix = "https://www.youtube.com/embed/%s?&start=%s&autoplay=1&showinfo=0&controls=0&disablekb=1&rel=0";
-                        String uri = String.format(embedPrefix, videoId, time);
-                        LinkedText lt = new LinkedText(br.readLine().strip(), uri);
-                        lt.setStyle("-fx-font: 14 arial;");
-                        lt.setOnMouseClicked(e -> {
-                            view.getBrowser().navigation().loadUrl(lt.getUri());
-                        });
-                        ObservableList<LinkedText> list = transcript.getItems();
-                        if (list.size() != 0 && (list.get(list.size() - 1).getText()
-                            .equals(lt.getText()))) {
-                            list.remove(list.size() - 1);
+                        String text = br.readLine();
+                        if (!text.strip().equals("")) {
+                            LinkedText lt = new LinkedText(text, videoId, time);
+                            lt.setStyle("-fx-font: 14 arial;");
+                            lt.setOnMouseClicked(
+                                e -> view.getBrowser().navigation().loadUrl(lt.getUri()));
+                            ObservableList<LinkedText> list = transcript.getItems();
+                            if (list.size() != 0 && (list.get(list.size() - 1).getText()
+                                .equals(lt.getText()))) {
+                                list.remove(list.size() - 1);
+                            }
+                            list.add(lt);
                         }
-                        list.add(lt);
                     }
                     line = br.readLine();
                 }

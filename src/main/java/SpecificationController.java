@@ -1,3 +1,4 @@
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,6 +15,8 @@ import javafx.stage.Stage;
 
 public class SpecificationController extends Controller implements Initializable {
 
+    public File transcriptFile;
+    @FXML
     public Label processFlag;
     @FXML
     public RadioButton idCC;
@@ -70,15 +73,32 @@ public class SpecificationController extends Controller implements Initializable
                 Parent root = loader.load();
                 TranscriptController controller = loader.getController();
                 if (controller != null) {
-                    Stage stage = (Stage) idCC.getScene().getWindow();
-                    stage.setScene(new Scene(root, 900, 600));
-                    stage.setTitle("YouTube Transcript - v1.0.5a");
-                    controller.loadEngine();
                     if (idSubs.isSelected()) subtitleProcessor.downSub(true, true);
                     if (idCC.isSelected()) subtitleProcessor.downSub(true, false);
                     if (enSubs.isSelected()) subtitleProcessor.downSub(false, true);
                     if (enCC.isSelected()) subtitleProcessor.downSub(false, false);
-                    controller.loadWebView(this.videoId, (RadioButton) toggleLang.getSelectedToggle());
+                    RadioButton selected = (RadioButton) toggleLang.getSelectedToggle();
+                    switch (selected.getText()) {
+                        case "Bahasa Indonesia - Subtitle":
+                            transcriptFile = loadTranscript(true,true);
+                            break;
+                        case "Bahasa Indonesia - CC":
+                            transcriptFile = loadTranscript(true, false);
+                            break;
+                        case "English - Subtitle":
+                            transcriptFile = loadTranscript(false, true);
+                            break;
+                        case "English - CC":
+                            transcriptFile = loadTranscript(false, false);
+                            break;
+                        case "Generate via GCloud":
+                            // TODO
+                    }
+                    Stage stage = (Stage) idCC.getScene().getWindow();
+                    stage.setScene(new Scene(root, 900, 600));
+                    stage.setTitle("YouTube Transcript - v1.0.5a");
+                    controller.loadEngine();
+                    controller.loadWebView(this.videoId, transcriptFile);
                     stage.show();
                 } else {
                     System.out.println("Exception"); // TODO GUI Exception
@@ -87,6 +107,13 @@ public class SpecificationController extends Controller implements Initializable
                 e.printStackTrace(); //TODO GUI Error handling
             }
         }
+    }
+
+    public File loadTranscript(boolean lang, boolean type) {
+        String typeString = (type) ? "sub" : "auto";
+        String langString = (lang) ? "id" : "en";
+        String fileName = String.format("%s.%s.%s.vtt", typeString, this.videoId, langString);
+        return new File(dir.toFile(), fileName);
     }
 
     @Override

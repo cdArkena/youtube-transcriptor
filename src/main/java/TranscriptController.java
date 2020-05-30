@@ -1,5 +1,4 @@
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
-import static java.lang.Integer.MAX_VALUE;
 
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
@@ -14,10 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -28,7 +24,6 @@ public class TranscriptController extends Controller implements Initializable {
     @FXML
     public Label statusURI;
     @FXML
-    public AnchorPane webPane;
     public SplitPane splitPane;
     @FXML
     BrowserView view;
@@ -42,6 +37,8 @@ public class TranscriptController extends Controller implements Initializable {
     private Font x3;
     @FXML
     private Color x4;
+    @FXML
+    private Timer timer;
 
     public static Engine getEngine() {
         return engine;
@@ -62,35 +59,22 @@ public class TranscriptController extends Controller implements Initializable {
         splitPane.getItems().add(0,view);
     }
 
-    public void loadWebView(String URI, RadioButton toggle) {
-        this.videoId = URI;
-        view.getBrowser().navigation().loadUrl(buildEmbed(URI));
-        statusURI.setText(URI);
-        switch (toggle.getText()) {
-            case "Bahasa Indonesia - Subtitle":
-                loadTranscript(true,true);
-                break;
-            case "Bahasa Indonesia - CC":
-                loadTranscript(true, false);
-                break;
-            case "English - Subtitle":
-                loadTranscript(false, true);
-                break;
-            case "English - CC":
-                loadTranscript(false, false);
-                break;
-            case "Generate via GCloud":
-                loadGenerated(); // TODO
-        }
-    }
+    public void loadWebView(String videoId, File file) {
+        this.videoId = videoId;
+        this.timer = new Timer() {
+            @Override
+            protected void onTick() {
 
-    public void loadTranscript(boolean lang, boolean type) {
-        String typeString = (type) ? "sub" : "auto";
-        String langString = (lang) ? "id" : "en";
-        String fileName = String.format("%s.%s.%s.vtt", typeString, this.videoId, langString);
-        File file = new File(dir.toFile(), fileName);
-        System.out.println(file.toString());
-        new ParseSubtitle(file, this.videoId, transcript, view);
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        };
+        view.getBrowser().navigation().loadUrl(buildEmbed(videoId));
+        statusURI.setText(videoId);
+        new ParseSubtitle(file, videoId, transcript, view);
     }
 
     public void loadGenerated() {
