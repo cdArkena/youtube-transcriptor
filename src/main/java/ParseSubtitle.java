@@ -10,12 +10,11 @@ import javafx.scene.control.ListView;
 
 public class ParseSubtitle {
 
-    /*
-    Parse every valid line file into Linkedtext in GUI
-    */
-
     Pattern timestamp = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})\\.(\\d{3}) --> ");
 
+    /**
+    Parse every valid line file into Linkedtext in GUI
+    */
     ParseSubtitle(File f, String videoId, ListView<LinkedText> transcript, BrowserView view) {
         if (f.exists()) {
             String line;
@@ -25,11 +24,17 @@ public class ParseSubtitle {
                 while (line != null) {
                     Matcher matcher = timestamp.matcher(line);
                     if (matcher.find()) {
+
+                        /*
+                         * Get the time value, instantiate LinkedText, add to ListView GUI
+                         */
+
                         int time = Integer.parseInt(matcher.group(1)) * 360 + // This is very bad
                             Integer.parseInt(matcher.group(2)) * 60 +
                             Integer.parseInt(matcher.group(3)) +
                             ((Integer.parseInt(matcher.group(4)) > 500) ? 0 : 1);
                         String text = br.readLine();
+
                         if (!text.strip().equals("")) {
                             LinkedText lt = new LinkedText(text, videoId, time);
                             lt.setStyle("-fx-font: 14 arial;");
@@ -39,6 +44,11 @@ public class ParseSubtitle {
                                 TranscriptController.text = lt;
                                 TranscriptController.iterateIndex = transcript.getItems().indexOf(lt);
                             });
+
+                            /*
+                             * Check for duplication, use the most recent timestamp.
+                             */
+
                             ObservableList<LinkedText> list = transcript.getItems();
                             if (list.size() != 0 && (list.get(list.size() - 1).getText().equals(lt.getText()))) {
                                 list.remove(list.size() - 1);

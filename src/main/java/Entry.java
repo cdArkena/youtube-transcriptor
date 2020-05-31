@@ -12,11 +12,20 @@ public class Entry extends Application {
 
     static Stage mainStage;
 
+    /**
+     * JavaFX Launch point,
+     */
+
     public static void main() {
         System.setProperty("jxbrowser.license.key",
             "1BNDHFSC1FVM5M44WOBXTBJ7U0GQJQSC3SKQUD77RX06U1J12FZGN5L8YE39N66ASLVI6X");
         launch();
     }
+
+    /**
+     * JavaFX starting sequence.
+     * @param primaryStage current stage
+     */
 
     public void start(Stage primaryStage) {
         try {
@@ -30,6 +39,10 @@ public class Entry extends Application {
             e.printStackTrace();
         }
     }
+
+    /**
+     * JavaFX closing sequence.
+     */
 
     public void stop() {
         Path dir = SpecificationController.dir;

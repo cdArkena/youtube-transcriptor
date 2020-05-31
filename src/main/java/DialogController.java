@@ -16,7 +16,9 @@ public class DialogController implements Initializable {
     @FXML
     public Label warnLabel;
 
-
+    /**
+     * Show the specification dialog after user input the URI
+     */
     public void dialogAction() {
         String uri = uriInput.getText();
         try {
@@ -24,6 +26,11 @@ public class DialogController implements Initializable {
             Parent root = loader.load();
             SpecificationController c = loader.getController();
             c.changeYTDLPath(getClass().getClassLoader().getResource("youtube-dl.exe").getPath().substring(1));
+
+            /*
+             * Check the URL validity
+             */
+
             if (c.uriValidation(uri)) {
                 Stage stage = (Stage) uriInput.getScene().getWindow();
                 stage.setScene(new Scene(root, 450, 200));

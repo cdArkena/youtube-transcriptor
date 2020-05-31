@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 
 public class SpecificationController extends Controller implements Initializable {
 
+    // TODO: Find text
+
     public File transcriptFile;
     @FXML
     public Label processFlag;
@@ -38,12 +40,15 @@ public class SpecificationController extends Controller implements Initializable
     @FXML
     public CheckBox scroll;
 
+    /**
+     * Update the radio button correspond to available subtitle.
+     */
     public void updateRadio() {
         try {
-            idCC.setDisable(!subtitleProcessor.idCapt);
-            idSubs.setDisable(!subtitleProcessor.idSubs);
-            enCC.setDisable(!subtitleProcessor.enCapt);
-            enSubs.setDisable(!subtitleProcessor.enSubs);
+            idCC.setDisable(!transcriptProcessor.idCapt);
+            idSubs.setDisable(!transcriptProcessor.idSubs);
+            enCC.setDisable(!transcriptProcessor.enCapt);
+            enSubs.setDisable(!transcriptProcessor.enSubs);
             scroll.setDisable(false);
             typeGen.setDisable(false);
             processFlag.setVisible(false);
@@ -53,6 +58,9 @@ public class SpecificationController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Disable everything when pricessing subtitle.
+     */
     public void updateProcess() {
         try {
             processFlag.setVisible(true);
@@ -68,6 +76,10 @@ public class SpecificationController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Start the transcription process with specified specification
+     * @param event click event
+     */
     public void transcript(ActionEvent event) {
         updateProcess();
         if (typeGen.isSelected()) {
@@ -77,11 +89,13 @@ public class SpecificationController extends Controller implements Initializable
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Transcript.fxml"));
                 Parent root = loader.load();
                 TranscriptController controller = loader.getController();
+
                 if (controller != null) {
-                    if (idSubs.isSelected()) subtitleProcessor.downSub(true, true);
-                    if (idCC.isSelected()) subtitleProcessor.downSub(true, false);
-                    if (enSubs.isSelected()) subtitleProcessor.downSub(false, true);
-                    if (enCC.isSelected()) subtitleProcessor.downSub(false, false);
+                    if (idSubs.isSelected()) transcriptProcessor.downSub(true, true);
+                    if (idCC.isSelected()) transcriptProcessor.downSub(true, false);
+                    if (enSubs.isSelected()) transcriptProcessor.downSub(false, true);
+                    if (enCC.isSelected()) transcriptProcessor.downSub(false, false);
+
                     RadioButton selected = (RadioButton) toggleLang.getSelectedToggle();
                     switch (selected.getText()) {
                         case "Bahasa Indonesia - Subtitle":
@@ -100,10 +114,12 @@ public class SpecificationController extends Controller implements Initializable
                     Stage stage = (Stage) idCC.getScene().getWindow();
                     stage.setScene(new Scene(root, 900, 600));
                     stage.setTitle("YouTube Transcript - v1.0.6a");
+
                     if (scroll.isSelected()) controller.scroll = true;
                     controller.loadEngine();
                     controller.loadWebView(this.videoId, transcriptFile);
                     stage.show();
+
                 } else {
                     System.out.println("Exception"); // TODO GUI Exception
                 }
@@ -113,6 +129,12 @@ public class SpecificationController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Load the transcription file.
+     * @param lang true = indonesian, false = english
+     * @param type true = subtitle, false = closed caption
+     * @return transcription file
+     */
     public File loadTranscript(boolean lang, boolean type) {
         String typeString = (type) ? "sub" : "auto";
         String langString = (lang) ? "id" : "en";

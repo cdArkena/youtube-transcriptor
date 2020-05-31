@@ -6,12 +6,10 @@ import java.util.concurrent.TimeUnit;
 /**
  *
  * An abstract timer utility class, that supports pause and resume.
- *
  * Can be used either as a normal timer or a countdown timer.
  *
  * @author Sridhar Sundar Raman (https://github.com/c05mic/)
- *
- * Modification by: Dennis A. Walangadi ()
+ * with modification by Dennis A. Walangadi (https://github.com/cdArkena)
  *
  */
 
@@ -35,10 +33,9 @@ public abstract class Timer {
     }
 
     /**
-     * @param interval
-     *            The time gap between each tick in millis.
-     * @param duration
-     *            The period in millis for which the timer should run. Set it to {@code Timer#DURATION_INFINITY} if the timer has to run indefinitely.
+     * @param interval The time gap between each tick in millis.
+     * @param duration The period in millis for which the timer should run.
+     *               Set it to {@code Timer#DURATION_INFINITY} if the timer has to run indefinitely.
      */
     public Timer(long interval, long duration) {
         this.interval = interval;

@@ -21,11 +21,14 @@ public class TranscriptController extends Controller implements Initializable {
 
     @FXML
     public static Timer timer;
+    @FXML
     public static LinkedText text;
+    @FXML
     public static int iterateIndex = 0;
-    public boolean scroll;
     @FXML
     static Engine engine;
+    @FXML
+    public boolean scroll;
     @FXML
     public ListView<LinkedText> transcript;
     @FXML
@@ -43,10 +46,17 @@ public class TranscriptController extends Controller implements Initializable {
     @FXML
     private Color x4;
 
+    /**
+     * Get the browser engine.
+     * @return browser engine
+     */
     public static Engine getEngine() {
         return engine;
     }
 
+    /**
+     * Load the browser engine into GUI.
+     */
     public void loadEngine() {
         EngineOptions options = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
             .licenseKey("1BNDHFSC1FVM5M44WOBXTBJ7U0GQJQSC3SKQUD77RX06U1J12FZGN5L8YE39N66ASLVI6X")
@@ -62,12 +72,18 @@ public class TranscriptController extends Controller implements Initializable {
         splitPane.getItems().add(0, view);
     }
 
+    /**
+     * Load the video and the transcription into the GUI.
+     * @param videoId the id of the video we about to load.
+     * @param file subtitle file location
+     */
     public void loadWebView(String videoId, File file) {
         this.videoId = videoId;
         timer = new Timer() {
             @Override
             protected void onTick() {
-                if (text.getTime() == this.getElapsedTime() || text.getTime() < this.getElapsedTime()) {
+                if (text.getTime() == this.getElapsedTime()
+                    || text.getTime() < this.getElapsedTime()) {
                     if (scroll) transcript.scrollTo(text); // this is slow
                     transcript.getSelectionModel().select(text);
                     transcript.getFocusModel().focus(iterateIndex);
@@ -83,18 +99,24 @@ public class TranscriptController extends Controller implements Initializable {
         };
         view.getBrowser().navigation().loadUrl(buildEmbed(videoId));
         statusURI.setText(videoId);
-        new ParseSubtitle(file, videoId, transcript, view);
+        new ParseSubtitle(file, videoId, transcript, view); //We can do this on different method
         text = transcript.getItems().get(iterateIndex);
         transcript.getSelectionModel().select(text);
         transcript.getFocusModel().focus(0);
         timeEvent();
     }
 
+    /**
+     * Load generated subtitle
+     */
     public void loadGenerated() {
         //TODO
     }
 
-    public void timeEvent() {
+    /**
+     * Start/stop the clock sync.
+     */
+    public void timeEvent() { // TODO: How to detect if the browser is clicked?
         if (timer.isRunning()) {
             timer.pause();
         } else {
