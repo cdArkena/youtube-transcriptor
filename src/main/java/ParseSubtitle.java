@@ -35,7 +35,7 @@ public class ParseSubtitle {
                             ((Integer.parseInt(matcher.group(4)) > 500) ? 0 : 1);
                         String text = br.readLine();
 
-                        if (!text.strip().equals("")) {
+                        if (!text.replaceAll("^\\s+", "").replaceAll("\\s+$", "").equals("")) {
                             LinkedText lt = new LinkedText(text, videoId, time);
                             lt.setStyle("-fx-font: 14 arial;");
                             lt.setOnMouseClicked(e -> {
