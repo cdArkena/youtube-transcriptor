@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Controller {
+public abstract class Controller {
 
     public static Path dir;
     public TranscriptProcessor transcriptProcessor;
