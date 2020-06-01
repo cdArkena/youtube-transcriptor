@@ -14,7 +14,7 @@ public class Controller {
     public TranscriptProcessor transcriptProcessor;
     protected String videoId = "";
     private Pattern validateUri = Pattern.compile("^((?:https?:)?//)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(/(?:[\\w\\-]+\\?v=|embed/|v/)?)([\\w\\-]+)(\\S+)?$");
-    private Pattern getId = Pattern.compile("([0-9a-zA-Z]{11})");
+    private Pattern getId = Pattern.compile("([0-9a-zA-Z-_]{11})");
 
     /**
      * Deletes temporary directory.
@@ -47,7 +47,7 @@ public class Controller {
      * @param URI the URL of the video
      */
     public void setVideoId(String URI) {
-        this.videoId = getId(URI);
+        videoId = getId(URI);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Controller {
         if (matcher.find()) {
             return matcher.group(1);
         } else {
-            return "";
+            return "-";
         }
     }
 
