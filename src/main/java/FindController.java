@@ -22,6 +22,10 @@ public class FindController implements Initializable {
     String key = "";
     Iterator<LinkedText> iterator;
 
+    /**
+     * Action to find the text using linear fashion after button is pressed.
+     * @param event button onClick event
+     */
     public void findText(ActionEvent event) {
         if (!(mark && findInput.getText().equals(key))) {
             key = findInput.getText();
@@ -32,6 +36,9 @@ public class FindController implements Initializable {
         iterate();
     }
 
+    /**
+     * Iterate the ListView for Linkedtext that contains the key substring.
+     */
     public void iterate() {
         if (iterator.hasNext()) {
             mark = true;
@@ -57,11 +64,18 @@ public class FindController implements Initializable {
         }
     }
 
+    /**
+     * Resets the iteration
+     */
     public void resetIterate() {
         iterator = transcript.getItems().iterator();
         transcript.getItems().forEach(linkedText -> linkedText.setUnderline(false));
     }
 
+    /**
+     * Get the ListView component.
+     * @param transcript ListView component
+     */
     public void setTranscript(ListView<LinkedText> transcript) {
         this.transcript = transcript;
     }

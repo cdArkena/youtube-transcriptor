@@ -80,12 +80,14 @@ public class TranscriptController extends Controller implements Initializable {
             protected void onTick() {
                 if (text.getTime() == this.getElapsedTime()
                     || text.getTime() < this.getElapsedTime()) {
+
                     if (searchDialog == null) {
                         if (scroll) {
                             transcript.scrollTo(text); // this is slow
                         }
                         transcript.getSelectionModel().select(text);
                         transcript.getFocusModel().focus(iterateIndex);
+
                     } else if (searchDialog.isShowing()) {
                         transcript.getFocusModel().focus(iterateIndex);
                     }
