@@ -5,17 +5,18 @@ import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.view.javafx.BrowserView;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class TranscriptController extends Controller implements Initializable {
 
@@ -35,19 +36,13 @@ public class TranscriptController extends Controller implements Initializable {
     public Label statusURI;
     @FXML
     public SplitPane splitPane;
+    Stage searchDialog;
     @FXML
     BrowserView view;
-    @FXML
-    private MenuBar menubar;
-    @FXML
-    private MenuItem changeLanguage;
-    @FXML
-    private Font x3;
-    @FXML
-    private Color x4;
 
     /**
      * Get the browser engine.
+     *
      * @return browser engine
      */
     public static Engine getEngine() {
@@ -74,8 +69,9 @@ public class TranscriptController extends Controller implements Initializable {
 
     /**
      * Load the video and the transcription into the GUI.
+     *
      * @param videoId the id of the video we about to load.
-     * @param file subtitle file location
+     * @param file    subtitle file location
      */
     public void loadWebView(String videoId, File file) {
         this.videoId = videoId;
@@ -84,9 +80,17 @@ public class TranscriptController extends Controller implements Initializable {
             protected void onTick() {
                 if (text.getTime() == this.getElapsedTime()
                     || text.getTime() < this.getElapsedTime()) {
-                    if (scroll) transcript.scrollTo(text); // this is slow
-                    transcript.getSelectionModel().select(text);
-                    transcript.getFocusModel().focus(iterateIndex);
+
+                    if (searchDialog == null) {
+                        if (scroll) {
+                            transcript.scrollTo(text); // this is slow
+                        }
+                        transcript.getSelectionModel().select(text);
+                        transcript.getFocusModel().focus(iterateIndex);
+
+                    } else if (searchDialog.isShowing()) {
+                        transcript.getFocusModel().focus(iterateIndex);
+                    }
                     iterateIndex++;
                 }
                 text = transcript.getItems().get(iterateIndex);
@@ -101,9 +105,29 @@ public class TranscriptController extends Controller implements Initializable {
         statusURI.setText(videoId);
         new ParseSubtitle(file, videoId, transcript, view); //We can do this on different method
         text = transcript.getItems().get(iterateIndex);
-        transcript.getSelectionModel().select(text);
         transcript.getFocusModel().focus(0);
         timeEvent();
+    }
+
+    public void showFind() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getClassLoader().getResource("FindText.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            searchDialog = stage;
+            FindController findController = loader.getController();
+            findController.setTranscript(transcript);
+            stage.setTitle("Cari teks");
+            stage.show();
+            stage.setOnCloseRequest(e -> {
+                transcript.getItems().forEach(linkedText -> linkedText.setUnderline(false));
+                searchDialog = null;
+            });
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**

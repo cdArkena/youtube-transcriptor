@@ -3,6 +3,7 @@ import static com.teamdev.jxbrowser.os.Environment.isMac;
 import com.teamdev.jxbrowser.engine.Engine;
 import java.nio.file.Path;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -60,6 +61,7 @@ public class Entry extends Application {
             }
         }
         TranscriptController.timer.cancel();
+        Platform.exit();
         System.exit(0);
     }
 }
