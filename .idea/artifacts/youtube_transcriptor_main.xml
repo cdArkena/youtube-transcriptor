@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="youtube-transcriptor.main">
+    <output-path>$PROJECT_DIR$/build/artifacts/youtube_transcriptor_main</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="D:\ComputerScience\Coding\Java\youtube-transcriptor\src\main\java\Entry.java" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="exe" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="youtube_transcriptor_main.jar">
+        <element id="module-output" name="youtube-transcriptor.main" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
