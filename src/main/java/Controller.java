@@ -91,17 +91,9 @@ public abstract class Controller {
      * Change the Youtube-DL dependency location
      * @param path /path/to/youtube-dl.exe
      */
-    public void changeYTDLPath(URI path) { //TODO Validate, harus .exe (GUI Side)
-        try {
-            final Map<String, String> env = new HashMap<>();
-            env.put("create", "true");
-            final String[] array = path.toString().split("!");
-            final FileSystem fs = FileSystems.newFileSystem(URI.create(array[0]), env);
-            String exePath = fs.getPath(array[1]).toString();
-            YoutubeDL.setExecutablePath(exePath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void changeYTDLPath(String path) { //TODO Validate, harus .exe (GUI Side)
+        Path exePath = Paths.get(path);
+        YoutubeDL.setExecutablePath(exePath.toString());
     }
 
     /**

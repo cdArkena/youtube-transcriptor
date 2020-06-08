@@ -25,6 +25,7 @@ public class DialogController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Specification.fxml"));
             Parent root = loader.load();
             SpecificationController c = loader.getController();
+            c.changeYTDLPath(getClass().getClassLoader().getResource("lib/youtube-dl.exe").getPath().substring(1));
 
             /*
              * Check the URL validity
@@ -36,7 +37,6 @@ public class DialogController implements Initializable {
                 stage.setTitle("Pilih spesifikasi");
                 stage.show();
                 c.createDir();
-//                c.changeYTDLPath(getClass().getClassLoader().getResource("youtube-dl.exe").toURI());
                 c.setVideoId(uri);
                 c.processSubtitle();
                 c.updateRadio();
